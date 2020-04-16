@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Bilderkarte -->
+    <string name="app_name" translatable="false">Bilderkarte</string>
+    <string name="app_id" translatable="false">103</string>
+
+    <string name="serverURL" translatable="false">https://plus.speechcare.de/</string>
+    <bool name="isCardApp">true</bool>
+    <bool name="isPlusVersion">false</bool>
+    <color name="mainColorHeader">#f18512</color>
+    <color name="mainColor">#eec69c</color>
+    <color name="mainColorFooter">#eba04f</color>
+
+</resources>

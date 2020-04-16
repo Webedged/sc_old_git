@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+
+    <string name="app_ver">ver 0.1528</string>
+    <!-- <string name="app_name">SpeechCareAphasieProjekt</string> -->
+
+    <string name="action_settings">Settings</string>
+    <string name="title_item_list">Items</string>
+    <string name="title_item_detail">Item Detail</string>
+    <string name="title_activity_impressum">Impressum</string>
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="title_activity_weitereapps">weitere apps</string>
+    <string name="title_activity_moreapps">moreapps</string>
+    <string name="title_activity_ueberspeechcare">ueberspeechcare</string>
+    <string name="uberspeechcare">"SpeechCare GmbH\n\Postanschrift\nFelix-von-roll Str. 22\n51375 Leverkusen\n\nKontakt:\nE-Mail: info@speechcare.de\nWeb: www.speechcare.de\n\nGeschäftsführer:\nKlaus Kugelmann, Stefan Böhm\n\nHandelsregistereintrag: HRB\n78036 Amtsgericht: Köln\nUSt-IdNr. DE288245211\n\nInhaltlich Verantwortlicher gemäß §6 MDStV:\nKlaus Kugelmann, Stefan Böhm"</string>
+    <string name="label_about_speechcare">SpeechCare ist ein medizinisches
+        Multimedia-Unternehmen, das
+        2012 von Fachleuten aus Medizin
+        und Technik mit dem Ziel
+        gegründet wurde, fortschrittliche
+        medizinische App-Angebote zur
+        Gesundheitsförderung für neue
+        Medien zu entwickeln…</string>
+    <string name="label_further_apps">Wir bieten ein umfangreiches und
+        differenziertes Übungsprogramm
+        für Kinder und Erwachsene, das
+        individuell angepasst werden
+        kann, um sprachliche Fähigkeiten
+        nachhaltig zu verbessern…</string>
+    <string name="label_training_tipps">Stellen Sie die Übungen nach
+        Ihren Fähigkeiten und
+        Bedürfnissen zusammen!
+        Sie können die passenden
+        Übungen aussuchen und den
+        Schwierigkeitsgrad einstellen…</string>
+    <string name="url_facebook">https://www.facebook.com/SpeechCare.de</string>
+    <string name="url_twitter">https://www.twitter.com/SpeechCareDe</string>
+    <string name="url_speechcare">https://www.speechcare.de/</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="title_activity_training">TrainingActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="error_could_not_load_helpvideo">Hilfevideo konnte nicht geladen werden </string>
+    <string name="error_could_not_load_question_media">Frage konnte nicht geladen werden </string>
+    <string name="error_could_not_load_settings">Einstellungen konnten nicht geladen werden. </string>
+    <string name="error_could_not_load_database">Datenbank konnte nicht geladen werden.</string>
+    <string name="error_could_not_open_database">Datenbank konnte nicht geöffnet werden. </string>
+    <string name="error_database_error">Fehler in der Datenbank. </string>
+    <string name="error_could_not_open_or_create_database">Datenbank konnte nicht erstellt oder geöffnet werden</string>
+    <string name="title_activity_evaluation">EvaluationActivity</string>
+    <string name="label_timer_initial_value">00:00</string>
+    <string name="label_initial_value_0">0</string>
+    <string name="label_send_result">Ergebnis zusenden</string>
+    <string name="label_exercises_to_repeat">Aufgaben in der Wiedervorlage</string>
+    <string name="label_unsolved_exercises">Ungelöste Aufgaben</string>
+    <string name="label_solved_exercises">Gelöste Aufgaben</string>
+    <string name="label_time_elapsed">Zeitdauer</string>
+    <string name="button_repeat">WIEDERHOLUNG</string>
+    <string name="button_send_result">ERGEBNIS ZUSENDEN</string>
+    <string name="button_back_to_overview">ZURÜCK ZUR ÜBERSICHT</string>
+    <string name="label_result">Ergebnis</string>
+    <string name="dialog_please_wait">Bitte warten</string>
+    <string name="label_email">E-Mail-Adresse für Ergebnisse</string>
+    <string name="label_aufgabenwiedervorlage">Aufgaben in der Wiedervorlage</string>
+    <string name="label_appsounds">App Sounds aktiviert</string>
+    <string name="label_videohilfe">Video Hilfe aktiviert</string>
+    <string name="label_schwierigkeit">Schwierigkeitsgrad</string>
+    <string name="label_zeitlimit">Zeitlimit (in Minuten)</string>
+    <string name="label_aufgabenlimit">Aufgabenlimit</string>
+    <string name="label_zufalltypenauswahl">Zufällige Typenauswahl</string>
+    <string name="label_wortbild">Wort zu Bild zuordnen (Aphasie)</string>
+    <string name="label_buchstabensortieren">Buchstaben sortieren auf satzebene (Aphasie)</string>
+    <string name="label_satzbild">Satz zu Bild zuordnen (Aphasie)</string>
+    <string name="label_lueckensatz">Lückensatz aus Auswahl ergänzen (Aphasie)</string>
+    <string name="label_lueckenwort">Lückenwort aus Auswahl ergänzen (Aphasie)</string>
+    <string name="label_bildwort">Bild zu Wort zuordnen (Aphasie)</string>
+    <string name="label_fehlerfinden">Fehler finden auf Wortebene (Aphasie)</string>
+    <string name="label_praeposition">Präposition zuordnen (Aphasie)</string>
+    <string name="label_sortierensatzebene">Wörter sortieren auf Satzebene (Aphasie)</string>
+    <string name="label_artikelzuordnen">Artikel zuordnen (Aphasie)</string>
+    <string name="label_reset">SpeechCare zurücksetzen</string>
+    <string name="label_x_exercises_in_repeatition">Derzeit liegen %d Aufgaben in der Wiedervorlage.</string>
+    <string name="label_difficulty_level">Schwierigkeitsgrad:</string>
+    <string name="label_imageCount">Bilderanzahl:</string>
+    <string name="label_wiederholung">Erlaubte Wiederholung</string>
+    <string name="button_kein">Keine</string>
+    <string name="button_ohneWiedervorlage">Ohne Wv</string>
+    <string name="button_mitWiedervorlage">Mit Wv</string>
+
+    <string name="button_easy">Einfach</string>
+    <string name="button_medium">Mittel</string>
+    <string name="button_hard">Schwierig</string>
+    <string name="button_foto">Foto</string>
+    <string name="button_illustration">Illustration</string>
+    <string name="button_delete">WIEDERVORLAGE LEEREN</string>
+    <string name="button_back">ZURÜCK ZUR ÜBERSICHT</string>
+    <string name="button_reset">Zurücksetzen</string>
+    <string name="label_settings">Einstellungen</string>
+    <string name="label_init_import">Initialisiere Import</string>
+    <string name="label_init_import_kids" tools:ignore="ExtraTranslation">Deine Aufgaben werden geladen</string>
+    <string name="label_import_ex">Importiere Aufgaben</string>
+    <string name="label_download_media">Lade Medien herunter</string>
+    <string name="von">von</string>
+    <string name="error_could_not_load_sound">Sound konnte nicht geladen werden.</string>
+    <string name="dialog_delete_all_training_data">Sollen alle Trainingsdaten gelöscht werden?</string>
+    <string name="label_yes">Ja</string>
+    <string name="label_no">Nein</string>
+    <string name="label_time">Dauer:</string>
+    <string name="label_umfang">Umfang:</string>
+    <string name="label_minutes">Minuten</string>
+    <string name="label_minute">Minute</string>
+    <string name="label_versionselection">Typenauswahl:</string>
+    <string name="label_aufgaben">Aufgaben</string>
+    <string name="label_aufgabe">Aufgabe</string>
+    <string name="tv_typenauswahl">Typenauswahl:</string>
+    <string name="label_ueberspeechcarepopup">Über SpeechCare</string>
+    <string name="label_trainingstipps_popup">Trainingstipps</string>
+    <string name="label_impressum_popup">Impressum</string>
+    <string name="label_continue">weiter</string>
+    <string name="label_imprint">Impressum/Datenschutz</string>
+    <string name="label_training_settings">Aktuelle Trainingseinstellungen:</string>
+    <string name="label_profile_settings">Profileinstellungen</string>
+    <string name="label_change_profile_settings">Klicken Sie hier um die Profileinstellungen zu ändern.</string>
+    <string name="label_start_training">Training starten</string>
+    <string name="label_fun_training">Viel Spaß beim Training!</string>
+    <string name="label_start_repetition">Klicken Sie hier um die Wiederholung zu starten.</string>
+    <string name="label_repetition">Wiederholungen</string>
+    <string name="button_training">Training</string>
+    <string name="button_info">Informationen</string>
+    <string name="geloest">Gelöst</string>
+    <string name="ungeloest">Ungelöst</string>
+    <string name="training_eval_settings">Dies waren die Einstellungen für Ihr Traininig:</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="label_login">Anmelden</string>
+    <string name="hint_yourUsername">Ihr Benutzername</string>
+    <string name="hint_yourPassword">Ihr Passwort</string>
+    <string name="button_login">LOGIN</string>
+    <string name="label_forgotPassword">Passwort vergessen</string>
+    <string name="label_register">Kein Zugang? Jetzt registrieren.</string>
+    <string name="dialog_check_usercredentials">Bitte überprüfen Sie Ihre Anmeldedaten.</string>
+    <string name="dialog_bad_request">Fehlerhafte Serveranfrage.</string>
+    <string name="url_youtube">https://www.youtube.com/user/SpeechCareDe</string>
+    <string name="cd_speechcarelogo">SpeechCare-Logo</string>
+    <string name="cd_login">Anmelden-Logo</string>
+    <string name="url_forgot_password">https://www.speechcare.de/passwort-vergessen</string>
+    <string name="url_register">https://www.speechcare.de/registrieren</string>
+    <string name="error_server_authorization_failed_401">Authorisation fehlgeschlagen. Evtl. haben Sie keine Berechtigung ein weiteres Gerät zu registrieren. </string>
+    <string name="alertTitleNoExerciseData">Keine Aufgaben vorhanden</string>
+    <string name="alertMsgNoExerciseData">Die Aufgaben müssen aus der online Datenbank geladen werden. Dafür ist einmalig eine Internetverbindung notwendig.</string>
+    <string name="alertBtnBreakNoExerciseData">Später versuchen</string>
+    <string name="alertBtnActionNoExerciseData">Aufgaben jetzt laden</string>
+    <string name="alertMsgNoInternet">Eine Internetverbindung ist notwendig, damit die Aufgaben geladen werden können.</string>
+    <string name="alertTitleNoInternet">Kein Netz</string>
+    <string name="unloadMediaInfo">Es werden noch Bilder und Videos geladen. Solange noch nicht alle Medien vollständig downgeloadet wurden, kann es zu unvollständigen Darstellungen in den Übungen kommen</string>
+    <string name="dialog_abort_training">Wollen Sie das Training abbrechen?</string>
+    <string name="dialog_clear_all_appdata">Möchstest du alle App-Daten Löschen?</string>
+    <string name="no_stats">Es sind keine Statistiken vorhanden.</string>
+    <string name="label_legend_right">Richtig</string>
+    <string name="label_legend_wrong">Falsch</string>
+    <string name="label_legend_skipped">Übersprungen</string>
+
+</resources>

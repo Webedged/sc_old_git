@@ -1,0 +1,358 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardBack"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".CardsActivity">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="90dp"
+        android:gravity="top"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/ll_header"
+            android:layout_width="fill_parent"
+            android:layout_height="84dp"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_weight="10"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btn_home"
+                android:layout_width="@dimen/button_size_48"
+                android:layout_height="@dimen/button_size_48"
+                android:layout_alignParentLeft="false"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="right"
+                android:layout_marginRight="68dp"
+                android:background="@drawable/ico_home" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="33dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/iv_logo"
+                    android:layout_width="36dp"
+                    android:layout_height="27dp"
+                    android:layout_gravity="center_vertical|bottom"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginBottom="5dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ico_sprechblase" />
+
+                <TextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|bottom"
+                    android:layout_marginLeft="5dp"
+                    android:text=""
+                    android:textColor="@color/fontcolor_lightblue"
+                    android:textSize="@dimen/fontsize_30" />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/iv_line"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/linie" />
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/ll_training"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:layout_weight="80"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/btnly_next_exercise"
+            android:layout_width="@dimen/button_size_48"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/btn_next_right"
+                android:layout_width="@dimen/button_size_48"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:layout_centerVertical="true"
+                android:layout_weight="1"
+                android:background="@null"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ico_haken" />
+
+            <ImageButton
+                android:id="@+id/btn_next_false"
+                android:layout_width="@dimen/button_size_48"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btn_next_right"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:layout_centerVertical="true"
+                android:layout_weight="1"
+                android:background="@null"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ico_x" />
+
+        </LinearLayout>
+
+
+        <ImageButton
+            android:id="@+id/btn_previous_exercise"
+            android:layout_width="@dimen/button_size_48"
+            android:layout_height="fill_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="left|center_vertical"
+            android:layout_marginRight="20dp"
+            android:background="@null"
+            android:scaleType="center"
+            android:src="@drawable/ico_previous" />
+
+        <RelativeLayout
+            android:id="@+id/rl_exercise_field_outer"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="center"
+            android:layout_toLeftOf="@id/btnly_next_exercise"
+            android:layout_toRightOf="@id/btn_previous_exercise">
+
+            <RelativeLayout
+                android:id="@+id/rl_exercise_field"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_alignParentLeft="false"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center">
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_exercise_field2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center">
+
+            </RelativeLayout>
+
+            <!--Modus Ein Bild -->
+
+            <ImageView
+                android:id="@+id/iv_card1"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:visibility="gone" />
+
+            <!--Modus 2 Bilder -->
+
+            <ImageView
+                android:id="@+id/iv_card2_1"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="50dp"
+                android:layout_marginRight="50dp"
+                android:layout_marginBottom="10dp"
+                android:layout_toStartOf="@+id/rl_exercise_field"
+                android:layout_toLeftOf="@+id/rl_exercise_field"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/iv_card2_2"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_alignTop="@+id/iv_card2_1"
+                android:layout_marginStart="50dp"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_toEndOf="@+id/rl_exercise_field"
+                android:layout_toRightOf="@+id/rl_exercise_field"
+                android:visibility="gone" />
+
+
+            <!--Modus 4 Bilder -->
+            <ImageView
+                android:id="@+id/iv_card4_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/rl_exercise_field2"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="83dp"
+                android:layout_marginBottom="10dp"
+                android:layout_toLeftOf="@+id/rl_exercise_field"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/iv_card4_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl_exercise_field2"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="83dp"
+                android:layout_marginBottom="10dp"
+                android:layout_toLeftOf="@+id/rl_exercise_field"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/iv_card4_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/rl_exercise_field2"
+                android:layout_marginLeft="83dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_toRightOf="@+id/rl_exercise_field"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/iv_card4_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl_exercise_field2"
+                android:layout_marginLeft="83dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_toRightOf="@+id/rl_exercise_field"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:id="@+id/ll_game_progress"
+        android:layout_width="fill_parent"
+        android:layout_height="30dp"
+        android:layout_gravity="center_horizontal|top"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_weight="0"
+        android:background="#1A000000"
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp">
+
+        <HorizontalScrollView
+            android:id="@+id/progressScrollView"
+            android:layout_width="fill_parent"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="30dp"
+            android:layout_weight="2">
+
+            <LinearLayout
+                android:id="@+id/trainingProgressView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|top"
+                android:orientation="horizontal" />
+        </HorizontalScrollView>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="5">
+
+            <ImageView
+                android:id="@+id/iv_exercises_status"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="3dp"
+                android:layout_toLeftOf="@+id/tv_exercise_status"
+                android:background="@drawable/ico_fahne" />
+
+            <TextView
+                android:id="@+id/tv_exercise_status"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_toLeftOf="@+id/iv_exercises_wrong"
+                android:text="0"
+                android:textColor="@color/fontcolor_lightblue" />
+
+            <ImageView
+                android:id="@+id/iv_exercises_wrong"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="3dp"
+                android:layout_toLeftOf="@+id/tv_exercises_wrong"
+                android:background="@drawable/ico_x" />
+
+            <TextView
+                android:id="@+id/tv_exercises_wrong"
+                android:layout_width="25dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_toLeftOf="@+id/iv_exercises_correct"
+                android:text="0"
+                android:textColor="@color/fontcolor_red" />
+
+            <ImageView
+                android:id="@+id/iv_exercises_correct"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="3dp"
+                android:layout_toLeftOf="@+id/tv_exercises_correct"
+                android:background="@drawable/ico_haken" />
+
+            <TextView
+                android:id="@+id/tv_exercises_correct"
+                android:layout_width="25dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_toLeftOf="@+id/iv_timer"
+                android:text="0"
+                android:textColor="@color/fontcolor_green" />
+
+            <ImageView
+                android:id="@+id/iv_timer"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="3dp"
+                android:layout_toLeftOf="@+id/tv_timer"
+                android:background="@drawable/ico_sanduhr" />
+
+            <TextView
+                android:id="@+id/tv_timer"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="20dp"
+                android:text="00:00"
+                android:textColor="@color/fontcolor_lightblue" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>

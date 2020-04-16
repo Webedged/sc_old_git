@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- SEV -->
+    <string name="app_name" translatable="false">SEV</string>
+    <string name="app_id" translatable="false">3</string>
+    <string name="serverURL" translatable="false">https://admin.speechcare.de/</string>
+    <bool name="isCardApp">false</bool>
+    <bool name="isPlusVersion">false</bool>
+    <color name="mainColorHeader">#961075</color>
+    <color name="mainColor">#c599bd</color>
+    <color name="mainColorFooter">#ad45ab</color>
+</resources>

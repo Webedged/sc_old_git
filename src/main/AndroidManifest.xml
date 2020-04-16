@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="de.salait.speechcare">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <supports-screens
+        android:largeScreens="true"
+        android:normalScreens="false"
+        android:requiresSmallestWidthDp="800"
+        android:smallScreens="false"
+        android:xlargeScreens="true" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme">
+        <activity android:name="de.speechcare.aphasie.full.statistics"></activity>
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
+        <activity
+            android:name=".activities.Trainingstipps"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/title_activity_fullscreen"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.Transparent"
+            tools:replace="android:label" />
+        <activity
+            android:name=".activities.Moreapps"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/title_activity_moreapps"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.Transparent" />
+        <activity
+            android:name=".activities.Ueberspeechcare"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/title_activity_ueberspeechcare"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.Transparent" />
+        <activity
+            android:name=".activities.Impressum"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/title_activity_impressum"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.Transparent" />
+        <activity
+            android:name=".activities.SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".activities.TrainingActivity"
+            android:label="@string/title_activity_training"
+            android:noHistory="true"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".activities.CardsActivity"
+            android:label="@string/title_activity_training"
+            android:noHistory="true"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".activities.EvaluationActivity"
+            android:label="@string/title_activity_evaluation"
+            android:noHistory="true"
+            android:screenOrientation="landscape">
+
+            <!--
+            android:configChanges="keyboardHidden|orientation"
+            android:windowSoftInputMode="stateHidden"
+            -->
+        </activity>
+        <activity android:name=".activities.StatisticsActivity" />
+    </application>
+
+</manifest>

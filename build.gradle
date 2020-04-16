@@ -1,0 +1,109 @@
+buildscript {
+    repositories {
+        google()
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.3.0'
+
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+
+    }
+}
+
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 28
+    buildToolsVersion "26.0.1"
+    useLibrary 'org.apache.http.legacy'
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 28
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    flavorDimensions "mode"
+    productFlavors {
+        Aphasie {
+            applicationId 'de.speechcare.aphasie.full'
+            dimension "mode"
+            versionCode = 5
+            versionName = '1.4'
+
+        }
+        AphasieLite {
+            applicationId 'de.speechcare.aphasie.lite'
+            dimension "mode"
+            versionCode = 5
+            versionName = '1.4'
+
+        }
+        AphasiePraxis {
+            applicationId 'de.speechcare.aphasie.praxis'
+            dimension "mode"
+
+        }
+        Lrs {
+            applicationId 'de.speechcare.lrs.full'
+            dimension "mode"
+            versionCode = 6
+            versionName = '1.5'
+            targetSdkVersion 28
+            minSdkVersion 21
+
+        }
+
+        LrsLite {
+            applicationId 'de.speechcare.lrs.lite'
+            dimension "mode"
+            versionCode = 7
+            versionName = '1.5'
+            targetSdkVersion 28
+            minSdkVersion 21
+
+        }
+        SEV {
+            applicationId 'de.speechcare.sev.full'
+            dimension "mode"
+            versionCode = 3
+            versionName = '1.1'
+
+        }
+
+        LrsPraxis {
+            applicationId 'de.speechcare.lrs.praxis'
+            dimension "mode"
+
+        }
+        Bilderkarte {
+            applicationId 'de.speechcare.bilderkarte'
+            dimension "mode"
+
+        }
+    }
+}
+
+repositories {
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    implementation 'com.android.support:appcompat-v7:28.+'
+    implementation 'com.android.support.constraint:constraint-layout:+'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    implementation 'com.android.support:design:28.0.0'
+}

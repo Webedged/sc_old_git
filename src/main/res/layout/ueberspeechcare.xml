@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/aboutBackground"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#99000000"
+    android:gravity="center_vertical|center_horizontal"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:id="@+id/aboutContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="#dde0e3"
+        android:baselineAligned="false"
+        android:paddingLeft="20dp"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="0"
+            android:orientation="vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="5dp">
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/textViewueberspcare"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="25dp"
+                    android:text="@string/label_ueberspeechcarepopup"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/fontcolor_lightblue"
+                    android:textSize="@dimen/fontsize_30" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/imageViewueberspeechcare"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ueber_speechcare" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent">
+
+                <ScrollView
+                    android:id="@+id/scrollView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/textViewueberspeechcare"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="false"
+                        android:layout_alignParentEnd="false"
+                        android:maxLines="20"
+                        android:text="@string/uberspeechcare"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="#6e6e6e"
+                        android:textSize="12sp" />
+                </ScrollView>
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="10"
+            android:paddingTop="20dp">
+
+            <WebView
+                android:id="@+id/webViewueberspeechcare"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@+id/imageViewbalkenvertik" />
+
+            <ImageView
+                android:id="@+id/imageViewbalkenvertik"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/balkenvertikal" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>

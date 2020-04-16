@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Aphasie -->
+    <string name="app_name" translatable="false">LRS Praxis</string>
+    <string name="app_id" translatable="false">102</string>
+    <string name="serverURL" translatable="false">https://admin.speechcare.de/</string>
+    <bool name="isCardApp">false</bool>
+    <bool name="isPlusVersion">true</bool>
+    <color name="mainColorHeader">#9c0e01</color>
+    <color name="mainColor">#dbb378</color>
+    <color name="mainColorFooter">#da1503</color>
+
+</resources>

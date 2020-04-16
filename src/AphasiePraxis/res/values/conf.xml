@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Aphasie -->
+    <string name="app_name" translatable="false">Aphasie Praxis</string>
+    <string name="app_id" translatable="false">101</string>
+    <string name="serverURL" translatable="false">https://admin.speechcare.de/</string>
+    <bool name="isCardApp">false</bool>
+    <bool name="isPlusVersion">true</bool>
+    <color name="mainColorHeader">#50764f</color>
+    <color name="mainColor">#c7d7ca</color>
+    <color name="mainColorFooter">#7fa281</color>
+
+</resources>
