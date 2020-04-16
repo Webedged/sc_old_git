@@ -24,20 +24,20 @@ public class Impressum extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.impressum);
+        setContentView(R.layout.impressum2);
 
         Point displaySize;
         Display display = getWindowManager().getDefaultDisplay();
         displaySize = new Point();
         display.getSize(displaySize);
 
-        LinearLayout content = (LinearLayout) findViewById(R.id.impContent);
+        LinearLayout content = (LinearLayout) findViewById(R.id.contentImpressum);
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) content.getLayoutParams();
         params.height = (int) (displaySize.y * 0.8);
         params.width = (int) (displaySize.x * 0.8);
         content.setLayoutParams(params);
 
-        LinearLayout backg = (LinearLayout) findViewById(R.id.impBackground);
+        LinearLayout backg = (LinearLayout) findViewById(R.id.impBackground2);
         FrameLayout.LayoutParams bparams = (FrameLayout.LayoutParams) backg.getLayoutParams();
         bparams.height = displaySize.y;
         bparams.width = displaySize.x;
