@@ -51,7 +51,10 @@ public class Impressum extends Activity {
         });
 
 //Schriftart
-        textViewimpressum = (TextView) findViewById(R.id.textViewImpressum);
+
+        WebView webView = (WebView) findViewById(R.id.webview);
+        webView.loadUrl("file:///android_asset/impressum_de.html");
+        /*textViewimpressum = (TextView) findViewById(R.id.textViewImpressum);
         textViewimpressumunten = (TextView) findViewById(R.id.textViewimpressumunten);
 
         Typeface font = Typeface.createFromAsset(getAssets(), "ltelight.ttf");
@@ -68,7 +71,7 @@ public class Impressum extends Activity {
         webViewimpressum.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         webViewimpressum.getSettings().setUseWideViewPort(true);
         webViewimpressum.setBackgroundColor(0);
-        webViewimpressum.loadUrl("file:///android_asset/impressum_de.html");
+        webViewimpressum.loadUrl("file:///android_asset/impressum_de.html");*/
 
     }
 }
