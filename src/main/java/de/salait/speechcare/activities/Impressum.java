@@ -31,12 +31,6 @@ public class Impressum extends Activity {
         displaySize = new Point();
         display.getSize(displaySize);
 
-        LinearLayout content = (LinearLayout) findViewById(R.id.contentImpressum);
-        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) content.getLayoutParams();
-        params.height = (int) (displaySize.y * 0.8);
-        params.width = (int) (displaySize.x * 0.8);
-        content.setLayoutParams(params);
-
         LinearLayout backg = (LinearLayout) findViewById(R.id.impBackground2);
         FrameLayout.LayoutParams bparams = (FrameLayout.LayoutParams) backg.getLayoutParams();
         bparams.height = displaySize.y;
@@ -50,10 +44,23 @@ public class Impressum extends Activity {
             }
         });
 
+        LinearLayout content = (LinearLayout) findViewById(R.id.contentImpressum);
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) content.getLayoutParams();
+        params.height = (int) (displaySize.y * 0.8);
+        params.width = (int) (displaySize.x * 0.8);
+        content.setLayoutParams(params);
+
+        webViewimpressum = (WebView) findViewById(R.id.webview);
+
+        webViewimpressum.setInitialScale(1);
+
+        webViewimpressum.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        webViewimpressum.getSettings().setUseWideViewPort(true);
+        webViewimpressum.setBackgroundColor(0);
+        webViewimpressum.loadUrl("file:///android_asset/impressum_de.html");
 //Schriftart
 
-        WebView webView = (WebView) findViewById(R.id.webview);
-        webView.loadUrl("file:///android_asset/impressum_de.html");
+
         /*textViewimpressum = (TextView) findViewById(R.id.textViewImpressum);
         textViewimpressumunten = (TextView) findViewById(R.id.textViewimpressumunten);
 

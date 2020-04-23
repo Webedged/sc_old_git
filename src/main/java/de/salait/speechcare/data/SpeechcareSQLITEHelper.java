@@ -35,6 +35,7 @@ public class SpeechcareSQLITEHelper extends SQLiteOpenHelper {
     public static final String TABLE_RELEASEPACKAGE_EXERCISE = "releasepackage_exercise";
     public static final String TABLE_REPEATEXERCISE = "repeatexercise";
     public static final String TABLE_REPEATCARDEXERCISE = "repeatimagecards";
+    public static final String TABLE_STATISTICS = "statistic";
     public static final String COLUMN_ID = "id";
     public static final String COLUMN_EXERCISE_ID = "exercise_id";
     public static final String COLUMN_TITLE = "title";
@@ -74,6 +75,9 @@ public class SpeechcareSQLITEHelper extends SQLiteOpenHelper {
     public static final String COLUMN_CREATED = "created";
     public static final String COLUMN_PUBLISHED = "published";
     public static final String COLUMN_APPID = "appid";
+    public static final String COLUMN_TIMESTAMP = "timestamp";
+    public static final String COLUMN_ANSWERSTATUS = "answerstatus";
+    public static final String COLUMN_GIVEANSWER = "answerstatus";
     /**
      * table columns
      **/
