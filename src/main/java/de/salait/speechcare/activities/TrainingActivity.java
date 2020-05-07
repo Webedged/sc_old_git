@@ -861,7 +861,7 @@ public class TrainingActivity extends Activity {
         System.out.println("ANSWERID: " + answerID);*/
 
         //Fügt die Antwort in die DB ein
-        statisticDataSource.insertStatistic(TrainingSingleton.getInstance().getCurrentExercise().getId(), System.currentTimeMillis() / 1000, TrainingSingleton.getInstance().getCurrentExercise().answerstatus, selectedAnswer());
+        statisticDataSource.insertStatistic(TrainingSingleton.getInstance().getCurrentExercise().getId(), System.currentTimeMillis(), TrainingSingleton.getInstance().getCurrentExercise().answerstatus, selectedAnswer());
 
         if (TrainingSingleton.getInstance().getCurrentExercise().getExerciseModell().equalsIgnoreCase("exerciseimageforword") || TrainingSingleton.getInstance().getCurrentExercise().getExerciseModell().equalsIgnoreCase("exerciseimageforvideo")) {
             RelativeLayout ll_training = findViewById(R.id.ll_training);
@@ -909,11 +909,9 @@ public class TrainingActivity extends Activity {
         loadExercise(prevExercise);
     }
 
-
     /*******************************************/
     /** Methoden für bestimmte ExerciseModels **/
     /*******************************************/
-
 
     /**
      * WordForImage
@@ -921,7 +919,7 @@ public class TrainingActivity extends Activity {
 
     protected void loadExercise(Exercise exercise) {
 
-        if (getResources().getBoolean(R.bool.isPlusVersion) == true) {
+        if (getResources().getBoolean(R.bool.isPlusVersion)) {
 
             if (exercise != null) {
                 for (int i = 0; i < exercise.getWrongAnswers().size(); i++) {
@@ -985,6 +983,8 @@ public class TrainingActivity extends Activity {
         openDatasource();
 
         System.out.println("<< ExerciseModell" + exercise.getExerciseModell());
+
+        //TODO: If-Statemants wechseln mit switch-case
 
         if (exercise.getExerciseModell().equalsIgnoreCase("exercisesortcharacters")) {
             datasource.getExerciseSortCharacters(exercise);

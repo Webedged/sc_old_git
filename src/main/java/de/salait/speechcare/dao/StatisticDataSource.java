@@ -1,5 +1,6 @@
 package de.salait.speechcare.dao;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -7,6 +8,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import de.salait.speechcare.data.SpeechcareSQLITEHelper;
 
@@ -46,23 +51,72 @@ public class StatisticDataSource {
         values.put(SpeechcareSQLITEHelper.COLUMN_GIVEANSWER, giveanswer);
         database.insertWithOnConflict(SpeechcareSQLITEHelper.TABLE_STATISTICS, null, values, SQLiteDatabase.CONFLICT_REPLACE);
 
-        //Schließt die Dtenbank (Kappt DB verbindung)
+        //Schließt die Datennbank (Kappt DB verbindung)
         close();
+        getAnswerStatus();
+
     }
 
     private void getID() {
         open();
-        Cursor cursor = database.query(SpeechcareSQLITEHelper.TABLE_STATISTICS, new String[]{SpeechcareSQLITEHelper.COLUMN_ID}, null, null, null, null, null);
+        Cursor cursor = database.query(SpeechcareSQLITEHelper.TABLE_STATISTICS, new String[]{SpeechcareSQLITEHelper.COLUMN_TIMESTAMP}, null, null, null, null, null);
         cursor.moveToFirst();
         int i = 0;
         while (!cursor.isAfterLast()) {
             //Show my ID
-            System.out.println("ID in DB (row: " + i + ")" + cursor.getString(0));
+            System.out.println("TIMESTAMPS in DB (row: " + i + ") :: " + cursor.getString(0));
             cursor.moveToNext();
             i++;
         }
         cursor.close();
         close();
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    private void getAnswerStatus() {
+
+        for (int i = 6; i >= 0; i--) {
+            Calendar calMax = Calendar.getInstance();
+            Calendar calMin = Calendar.getInstance();
+            //Format für die Timestamp zu Datum Konvertierung (--31.12.2020)
+            DateFormat f = new SimpleDateFormat("dd.MM.yyyy");
+
+            //Setzt pro Index (int i) den Tag auf die niedrigste Uhrzeit (00:00:01) - als Timestamp mit der Methode getTimeInMillis()
+            calMin.add(Calendar.DATE, -i);
+            calMin.set(Calendar.HOUR_OF_DAY, 0);
+            calMin.set(Calendar.MINUTE, 0);
+            calMin.set(Calendar.SECOND, 0);
+
+            //Setzt pro Index (int i) den Tag auf die höchste Uhrzeit (23:59:59) - als Timestamp mit der Methode getTimeInMillis()
+            calMax.add(Calendar.DATE, -i);
+            calMax.set(Calendar.HOUR_OF_DAY, 23);
+            calMax.set(Calendar.MINUTE, 59);
+            calMax.set(Calendar.SECOND, 59);
+
+            //Setzt zur überprüfung einen log für jeden (Tag -7), je nach Index der For-Schleife
+            System.out.println(f.format(calMax.getTime()) + ":::" + i + ":::" + "MIN---: " + calMin.getTimeInMillis() + " : " + "MAX---: " + calMax.getTimeInMillis());
+
+            open();
+            //Fragt die min und max Timestamps in der Query ab, die Resultate sind jeweils die Werte ziwschen min und max Timestamp
+            Cursor cursor = database.query(SpeechcareSQLITEHelper.TABLE_STATISTICS, new String[]{SpeechcareSQLITEHelper.COLUMN_ANSWERSTATUS, SpeechcareSQLITEHelper.COLUMN_TIMESTAMP}, "timestamp BETWEEN " + calMin.getTimeInMillis() + " AND " + calMax.getTimeInMillis() + "", null, null, null, null);
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+
+                //Konvertiert den DB-Timestamp in einem Timestamp des Typen Calendar (String to Calendar)
+                String time = cursor.getString(1);
+                long timestampLong = Long.parseLong(time);
+                Date d = new Date(timestampLong);
+                Calendar c = Calendar.getInstance();
+                c.setTime(d);
+                String s = f.format(c.getTime());
+
+                //Zeight aktuelles Datum aus der DB und den Status der Antwort
+                System.out.println("\n DATUM: " + s + ":::" + "ANSWERSTATUS: " + cursor.getString(0));
+                cursor.moveToNext();
+            }
+            cursor.close();
+            close();
+        }
     }
 
     public void truncateTable() {

@@ -34,6 +34,7 @@ import de.salait.speechcare.dao.ExerciseDataSource;
 import de.salait.speechcare.dao.MediaCollectionDataSource;
 import de.salait.speechcare.dao.MediaDataSource;
 import de.salait.speechcare.dao.PackageDataSource;
+import de.salait.speechcare.dao.StatisticDataSource;
 import de.salait.speechcare.data.Settings;
 import de.salait.speechcare.utility.DifferentiateCardHandler;
 
@@ -753,8 +754,6 @@ public class SettingsActivity extends Activity implements View.OnClickListener, 
      * zeigt den Loesch-Dialog
      */
     private void showDeleteTrainingDataDialog() {
-
-
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -836,10 +835,17 @@ public class SettingsActivity extends Activity implements View.OnClickListener, 
             collectionDataSource.open();
             collectionDataSource.truncateTable();
             collectionDataSource.close();
+
             MediaCollectionDataSource mediacollectionDS = new MediaCollectionDataSource(this);
             mediacollectionDS.open();
             mediacollectionDS.truncateTable();
             mediacollectionDS.close();
+
+            StatisticDataSource statisticDataSource = new StatisticDataSource(this);
+            statisticDataSource.open();
+            statisticDataSource.truncateTable();
+            statisticDataSource.close();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
