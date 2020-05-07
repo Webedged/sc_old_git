@@ -77,7 +77,7 @@ public class SpeechcareSQLITEHelper extends SQLiteOpenHelper {
     public static final String COLUMN_APPID = "appid";
     public static final String COLUMN_TIMESTAMP = "timestamp";
     public static final String COLUMN_ANSWERSTATUS = "answerstatus";
-    public static final String COLUMN_GIVEANSWER = "answerstatus";
+    public static final String COLUMN_GIVEANSWER = "givenanswer";
     /**
      * table columns
      **/

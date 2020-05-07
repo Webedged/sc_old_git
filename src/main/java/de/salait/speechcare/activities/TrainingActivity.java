@@ -61,6 +61,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import de.salait.speechcare.R;
 import de.salait.speechcare.dao.AnswerDataSource;
 import de.salait.speechcare.dao.ExerciseDataSource;
+import de.salait.speechcare.dao.StatisticDataSource;
 import de.salait.speechcare.data.Answer;
 import de.salait.speechcare.data.Exercise;
 import de.salait.speechcare.data.Media;
@@ -116,6 +117,7 @@ public class TrainingActivity extends Activity {
     protected boolean isTimelimit;
     protected Point displaySize;
     protected float density;
+    private StatisticDataSource statisticDataSource;
     /**
      * gibt an, ob Wiedervorlagenlauf oder neues Training
      */
@@ -180,6 +182,11 @@ public class TrainingActivity extends Activity {
             display.getSize(displaySize);
         }
 
+        try {
+            statisticDataSource = new StatisticDataSource(this);
+        } catch (IOException e) {
+            System.out.println(e);
+        }
 
         if (getResources().getBoolean(R.bool.isPlusVersion) == true) {
             Settings settingsPraxis = new Settings(activity);
@@ -201,7 +208,7 @@ public class TrainingActivity extends Activity {
 
         tfLTElight = Typeface.createFromAsset(getAssets(), "ltelight.ttf");
 
-        LinearLayout backG = (LinearLayout) findViewById(R.id.trainBack);
+        LinearLayout backG = findViewById(R.id.trainBack);
        /* Drawable d = new BitmapDrawable(getResources(), Utils.decodeSampledBitmapFromResource(getResources(), R.drawable.hintergrund_blank, displaySize.x, displaySize.y));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             backG.setBackground(d);
@@ -215,13 +222,13 @@ public class TrainingActivity extends Activity {
         directory = c.getFilesDir();
         isRepetition = getIntent().getBooleanExtra("repetition", false);
 
-        tvTitle = (TextView) findViewById(R.id.tv_title);
+        tvTitle = findViewById(R.id.tv_title);
         tvTitle.setTypeface(tfLTElight);
         tvTitle.setPaintFlags(Paint.SUBPIXEL_TEXT_FLAG);
-        Button btnHome = (Button) findViewById(R.id.btn_home);
+        Button btnHome = findViewById(R.id.btn_home);
 
-        btnResize = (Button) findViewById(R.id.videoresize_button);
-        btnImageResize = (Button) findViewById(R.id.imageresize_button);
+        btnResize = findViewById(R.id.videoresize_button);
+        btnImageResize = findViewById(R.id.imageresize_button);
         btnHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -256,16 +263,16 @@ public class TrainingActivity extends Activity {
                 onImageResizePressed();
             }
         });
-        tv_timer = (TextView) findViewById(R.id.tv_timer);
-        rl_exerciseField = (RelativeLayout) findViewById(R.id.rl_exercise_field);
-        rl_videoField = (RelativeLayout) findViewById(R.id.rl_helpVideo);
-        rl_trainingField = (RelativeLayout) findViewById(R.id.ll_training);
-        rl_media = (RelativeLayout) findViewById(R.id.rl_media);
-        iv_play = (ImageView) findViewById(R.id.playbtn_imageView);
-        iv_media = (ImageView) findViewById(R.id.iv_media);
-        progressView = (LinearLayout) findViewById(R.id.trainingProgressView);
+        tv_timer = findViewById(R.id.tv_timer);
+        rl_exerciseField = findViewById(R.id.rl_exercise_field);
+        rl_videoField = findViewById(R.id.rl_helpVideo);
+        rl_trainingField = findViewById(R.id.ll_training);
+        rl_media = findViewById(R.id.rl_media);
+        iv_play = findViewById(R.id.playbtn_imageView);
+        iv_media = findViewById(R.id.iv_media);
+        progressView = findViewById(R.id.trainingProgressView);
 
-        vv_helpVideo = (VideoView) findViewById(R.id.vv_helpVideo);
+        vv_helpVideo = findViewById(R.id.vv_helpVideo);
         vv_helpVideo.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -288,11 +295,11 @@ public class TrainingActivity extends Activity {
             }
         });*/
 
-        btn_nextExercise = (ImageButton) findViewById(R.id.btn_next_exercise);
+        btn_nextExercise = findViewById(R.id.btn_next_exercise);
         btn_nextExercise.setOnTouchListener(new ButtonHighlighterOnTouchListener(btn_nextExercise));
-        btn_nextExercise2 = (ImageButton) findViewById(R.id.btn_next_exercise2);
+        btn_nextExercise2 = findViewById(R.id.btn_next_exercise2);
         btn_nextExercise2.setOnTouchListener(new ButtonHighlighterOnTouchListener(btn_nextExercise2));
-        btn_repeat = (ImageButton) findViewById(R.id.btn_repeat);
+        btn_repeat = findViewById(R.id.btn_repeat);
         btn_repeat.setOnTouchListener(new ButtonHighlighterOnTouchListener(btn_repeat));
 
         btn_nextExercise.setOnClickListener(new View.OnClickListener() {
@@ -319,7 +326,7 @@ public class TrainingActivity extends Activity {
                 loadExercise(TrainingSingleton.getInstance().getCurrentExercise());
             }
         });
-        btn_previousExercise = (ImageButton) findViewById(R.id.btn_previous_exercise);
+        btn_previousExercise = findViewById(R.id.btn_previous_exercise);
         btn_previousExercise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -404,7 +411,7 @@ public class TrainingActivity extends Activity {
         iv_play.setLayoutParams(pl);
 
 
-        HorizontalScrollView progressScrollView = (HorizontalScrollView) findViewById(R.id.progressScrollView);
+        HorizontalScrollView progressScrollView = findViewById(R.id.progressScrollView);
         LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) progressScrollView.getLayoutParams();
         lp.leftMargin = p2.leftMargin;
         progressScrollView.setLayoutParams(lp);
@@ -630,7 +637,7 @@ public class TrainingActivity extends Activity {
      */
     protected void updateTrainingProgressBar(Exercise ex) {
 
-        HorizontalScrollView progressScrollView = (HorizontalScrollView) findViewById(R.id.progressScrollView);
+        HorizontalScrollView progressScrollView = findViewById(R.id.progressScrollView);
 
         int index = TrainingSingleton.getInstance().exerciseList.indexOf(ex);
 
@@ -678,7 +685,7 @@ public class TrainingActivity extends Activity {
     @SuppressLint("ResourceAsColor")
     protected void createTrainingProgressBar() {
 
-        HorizontalScrollView progressScrollView = (HorizontalScrollView) findViewById(R.id.progressScrollView);
+        HorizontalScrollView progressScrollView = findViewById(R.id.progressScrollView);
 
         if (progressView.getChildCount() > 0)
             progressView.removeAllViews();
@@ -747,7 +754,7 @@ public class TrainingActivity extends Activity {
 
     protected void insertWrongAnswers() {
         openDatasource();
-        if (getResources().getBoolean(R.bool.isPlusVersion) == true) {
+        if (getResources().getBoolean(R.bool.isPlusVersion)) {
 
             datasource.insertIntoRepeatExercise(TrainingSingleton.getInstance().getWrongAnswers(), userid);
 
@@ -790,7 +797,7 @@ public class TrainingActivity extends Activity {
             e.printStackTrace();
         }
         if (isRepetition) {
-            if (getResources().getBoolean(R.bool.isPlusVersion) == true) {
+            if (getResources().getBoolean(R.bool.isPlusVersion)) {
 
                 exerciseList = datasource.getAllRepeatExercises(userid);
             } else {
@@ -807,7 +814,7 @@ public class TrainingActivity extends Activity {
 
             exercisetypes = exercisetypes.substring(0, exercisetypes.length() - 1) + ")";
 
-            if (getResources().getBoolean(R.bool.isPlusVersion) == true) {
+            if (getResources().getBoolean(R.bool.isPlusVersion)) {
 
                 exerciseList = datasource.getAllExercisesOfDifficultyForUser(settings.getDifficultyLevel(), exercisetypes, userid);
             } else {
@@ -833,7 +840,7 @@ public class TrainingActivity extends Activity {
      */
     protected void loadNextExercise() {
 
-        if (getResources().getBoolean(R.bool.isPlusVersion) == true) {
+        if (getResources().getBoolean(R.bool.isPlusVersion)) {
             try {
                 setAnswerData();
                 sendAnswer();
@@ -846,12 +853,39 @@ public class TrainingActivity extends Activity {
             TrainingSingleton.getInstance().getCurrentExercise().answerstatus = 0;
             onWrongAnswerClicked(null);
         }
+
+        //Zeigt mir relevante werte zum überprüfen der gegebenen Antwort an + Modell (Variiert je nach Modell-Typ)
+        /*System.out.println("MODELL: " + TrainingSingleton.getInstance().getCurrentExercise().getExerciseModell());
+        System.out.println("GIVENANSWER: " + givenAnswer);
+        System.out.println("GIVENANSWERLIST: " + givenAnswerList);
+        System.out.println("ANSWERID: " + answerID);*/
+
+        //Fügt die Antwort in die DB ein
+        statisticDataSource.insertStatistic(TrainingSingleton.getInstance().getCurrentExercise().getId(), System.currentTimeMillis() / 1000, TrainingSingleton.getInstance().getCurrentExercise().answerstatus, selectedAnswer());
+
         if (TrainingSingleton.getInstance().getCurrentExercise().getExerciseModell().equalsIgnoreCase("exerciseimageforword") || TrainingSingleton.getInstance().getCurrentExercise().getExerciseModell().equalsIgnoreCase("exerciseimageforvideo")) {
-            RelativeLayout ll_training = (RelativeLayout) findViewById(R.id.ll_training);
+            RelativeLayout ll_training = findViewById(R.id.ll_training);
             View exv = findViewById(R.id.exercise_layout);
             ll_training.removeView(exv);
         }
         loadExercise(TrainingSingleton.getInstance().getNextExercise());
+    }
+
+    private String selectedAnswer() {
+        String tmpAnswer = "";
+        switch (TrainingSingleton.getInstance().getCurrentExercise().getExerciseModell()) {
+            case "exercisewordforimage":
+            case "exerciseimageforword":
+                tmpAnswer = answerID;
+                break;
+            case "exercisegapsentenceforimage":
+            case "exercisesortcharacters":
+            case "exercisesortwords":
+            case "exercisegapwordforimage":
+                tmpAnswer = givenAnswer;
+                break;
+        }
+        return tmpAnswer;
     }
 
     /**
@@ -860,7 +894,7 @@ public class TrainingActivity extends Activity {
     protected void loadPreviousExercise() {
 
         if (TrainingSingleton.getInstance().getCurrentExercise().getExerciseModell().equalsIgnoreCase("exerciseimageforword") || TrainingSingleton.getInstance().getCurrentExercise().getExerciseModell().equalsIgnoreCase("exerciseimageforvideo")) {
-            RelativeLayout ll_training = (RelativeLayout) findViewById(R.id.ll_training);
+            RelativeLayout ll_training = findViewById(R.id.ll_training);
             View exv = findViewById(R.id.exercise_layout);
             ll_training.removeView(exv);
         }
@@ -881,7 +915,9 @@ public class TrainingActivity extends Activity {
     /*******************************************/
 
 
-    /**     WordForImage        **/
+    /**
+     * WordForImage
+     **/
 
     protected void loadExercise(Exercise exercise) {
 
@@ -1234,7 +1270,7 @@ public class TrainingActivity extends Activity {
                 tv.setText(answer);
                 //tv.setPadding(15,5,15,5);
                 tv.setBackgroundColor(Color.WHITE);
-                tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, (int) ((maxFontsize)));
+                tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, (maxFontsize));
                 tv.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
                 tv.setTypeface(tfLTElight);
                 tv.setPaintFlags(Paint.SUBPIXEL_TEXT_FLAG);
@@ -1244,7 +1280,7 @@ public class TrainingActivity extends Activity {
 
                 final ImageView iv = new ImageView(this);
                 iv.setVisibility(View.INVISIBLE);
-                LinearLayout.LayoutParams iv_p = new LinearLayout.LayoutParams(tvMaxWidth, (int) (50));
+                LinearLayout.LayoutParams iv_p = new LinearLayout.LayoutParams(tvMaxWidth, 50);
 
                 iv_p.topMargin = 10;
                 iv_p.gravity = Gravity.CENTER_HORIZONTAL;
@@ -1314,7 +1350,9 @@ public class TrainingActivity extends Activity {
         loadQuestionMedia(exercise.getQuestionMedia());
     }
 
-    /**     ImageForWord        **/
+    /**
+     * ImageForWord
+     **/
 
     protected int spacecount(String s) {
         int i;
@@ -1654,7 +1692,9 @@ public class TrainingActivity extends Activity {
         loadQuestionMedia(exercise.getQuestionMedia());
     }
 
-    /**     SortCharacters      **/
+    /**
+     * SortCharacters
+     **/
 
     protected void updateWordsAnswerfields(TextView tvSource) {
 
@@ -1683,7 +1723,7 @@ public class TrainingActivity extends Activity {
             return;
 
         if (TrainingSingleton.getInstance().getCurrentExercise().getCorrectAnswer().equalsIgnoreCase(answerString)) {
-            ImageView iv = (ImageView) findViewById(R.id.feedback_image);
+            ImageView iv = findViewById(R.id.feedback_image);
             Bitmap bm = Utils.decodeSampledBitmapFromResource(getResources(), R.drawable.answerfeedbackright, 250, 50);
             iv.setImageBitmap(bm);
             if (bm != null) {
@@ -1695,7 +1735,7 @@ public class TrainingActivity extends Activity {
             isCorrect = true;
             givenAnswer = answerString;
         } else if (!TrainingSingleton.getInstance().getCurrentExercise().getCorrectAnswer().equalsIgnoreCase(answerString)) {
-            ImageView iv = (ImageView) findViewById(R.id.feedback_image);
+            ImageView iv = findViewById(R.id.feedback_image);
             iv.setVisibility(View.VISIBLE);
             setCurrentExerciseAsWrongAnswered();
             isCorrect = false;
@@ -1713,7 +1753,7 @@ public class TrainingActivity extends Activity {
      */
     protected void createExerciseSortCharacters(Exercise exercise) {
 
-        System.out.println("<< dens " + String.valueOf(density));
+        System.out.println("<< dens " + density);
         int charactersCount = exercise.getCorrectAnswer().length();
 
         // Frage shuffeln
@@ -1766,7 +1806,7 @@ public class TrainingActivity extends Activity {
 
         LinearLayout line = new LinearLayout(this);
         line.setOrientation(LinearLayout.HORIZONTAL);
-        LinearLayout.LayoutParams l_p = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) (((q_p.height / 3) - 5)));
+        LinearLayout.LayoutParams l_p = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ((q_p.height / 3) - 5));
         l_p.topMargin = 5;
         line.setLayoutParams(l_p);
 
@@ -1897,7 +1937,9 @@ public class TrainingActivity extends Activity {
     }
 
 
-    /**     GapWordForImage      **/
+    /**
+     * GapWordForImage
+     **/
 
     protected void updateCharactersAnswerfields(View v) {
         CharSequence text = ((TextView) v).getText();
@@ -1914,7 +1956,7 @@ public class TrainingActivity extends Activity {
         }
         if (givenAnswer.contains("*")) return;
         if (givenAnswer.length() == answerfieldsList.size() && TrainingSingleton.getInstance().getCurrentExercise().getCorrectAnswer().equalsIgnoreCase(givenAnswer)) {
-            ImageView iv = (ImageView) findViewById(R.id.feedback_image);
+            ImageView iv = findViewById(R.id.feedback_image);
             Bitmap bm = Utils.decodeSampledBitmapFromResource(getResources(), R.drawable.answerfeedbackright, 250, 50);
             iv.setImageBitmap(bm);
             if (bm != null) {
@@ -1925,7 +1967,7 @@ public class TrainingActivity extends Activity {
             iv.setVisibility(View.VISIBLE);
             setCurrentExerciseAsCorrectAnswered();
         } else if (givenAnswer.length() == answerfieldsList.size() && !TrainingSingleton.getInstance().getCurrentExercise().getCorrectAnswer().equalsIgnoreCase(givenAnswer)) {
-            ImageView iv = (ImageView) findViewById(R.id.feedback_image);
+            ImageView iv = findViewById(R.id.feedback_image);
             iv.setVisibility(View.VISIBLE);
             setCurrentExerciseAsWrongAnswered();
         }
@@ -2013,7 +2055,7 @@ public class TrainingActivity extends Activity {
 
         LinearLayout line = new LinearLayout(this);
         line.setOrientation(LinearLayout.HORIZONTAL);
-        LinearLayout.LayoutParams l_p = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) (((q_p.height / 3) - 5)));
+        LinearLayout.LayoutParams l_p = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ((q_p.height / 3) - 5));
         l_p.topMargin = 5;
         line.setLayoutParams(l_p);
 
@@ -2657,7 +2699,7 @@ public class TrainingActivity extends Activity {
             params.leftMargin = 20;
             params.gravity = Gravity.CENTER_VERTICAL;
             aBtn.setLayoutParams(params);
-            System.out.println("<<<<< word " + a_word + " wordLength " + String.valueOf(a_word.length()));
+            System.out.println("<<<<< word " + a_word + " wordLength " + a_word.length());
 
             if (a_word.length() == 0) {
 
@@ -2745,7 +2787,7 @@ public class TrainingActivity extends Activity {
         givenAnswer = "";
         givenAnswerList = new ArrayList<String>();
         iv_media.setImageBitmap(null);
-        RelativeLayout rl_media = (RelativeLayout) findViewById(R.id.rl_media);
+        RelativeLayout rl_media = findViewById(R.id.rl_media);
         rl_media.setVisibility(View.VISIBLE);
     }
 
@@ -2826,15 +2868,15 @@ public class TrainingActivity extends Activity {
             llGameAnswrs.addView(view);
         }*/
 
-        TextView tv_wrongAnswers = (TextView) findViewById(R.id.tv_exercises_wrong);
+        TextView tv_wrongAnswers = findViewById(R.id.tv_exercises_wrong);
         int wrong = TrainingSingleton.getInstance().getWrongAnswers().size();
         tv_wrongAnswers.setText(String.valueOf(wrong));
 
-        TextView tv_correctAnswers = (TextView) findViewById(R.id.tv_exercises_correct);
+        TextView tv_correctAnswers = findViewById(R.id.tv_exercises_correct);
         int correct = TrainingSingleton.getInstance().getCorrectAnswers().size();
         tv_correctAnswers.setText(String.valueOf(correct));
 
-        TextView tv_exercisesStatus = (TextView) findViewById(R.id.tv_exercise_status);
+        TextView tv_exercisesStatus = findViewById(R.id.tv_exercise_status);
         String exerciseStatus = String.valueOf(correct + wrong);
         if (!isTimelimit)
             exerciseStatus += "/" + TrainingSingleton.getInstance().getExerciseLimit();
@@ -3096,7 +3138,7 @@ public class TrainingActivity extends Activity {
 
                 if (!zeit.equalsIgnoreCase(zeit_old)) {
                     Message message = mHandler.obtainMessage();
-                    message.obj = String.valueOf(zeit);
+                    message.obj = zeit;
                     mHandler.sendMessage(message);
                     zeit_old = zeit;
                 }

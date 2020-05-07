@@ -48,8 +48,7 @@
             android:name=".activities.Impressum"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_impressum"
-            android:screenOrientation="landscape"
-            android:theme="@style/Theme.Transparent" />
+            android:screenOrientation="landscape" />
         <activity
             android:name=".activities.SettingsActivity"
             android:label="@string/title_activity_settings"

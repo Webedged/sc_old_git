@@ -6,10 +6,10 @@ public class Statistic {
     private String answerStatus;
     private String givenAnswer;
 
-    public String getID() {
+    public String getIDStatistics() {
         return ID;
     }
-    public void setID(String id) {
+    public void setIDStatistics(String id) {
         this.ID = id;
     }
 
