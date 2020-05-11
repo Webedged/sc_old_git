@@ -18,22 +18,36 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Random;
 
 import de.salait.speechcare.R;
+import de.salait.speechcare.dao.StatisticDataSource;
 
 public class StatisticsActivity extends Activity {
 
+    StatisticDataSource statisticDataSource;
+    private void getDatas(String date){
+        try {
+            statisticDataSource = new StatisticDataSource(this);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     BarChart stackedChart;
+    //RGB-Werte für die Statistik-Balken
     int[] colorClassArray = new int[]{
             Color.argb(255, 46, 204, 113),
             Color.argb(255, 231, 76, 60),
             Color.argb(255, 241, 196, 15)
     };
 
+    //Labels für die Legende
     String[] labelArray = new String[]{
             "Richtig",
             "Falsch",
@@ -45,12 +59,12 @@ public class StatisticsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.statistics);
 
-        LinearLayout backG = (LinearLayout) findViewById(R.id.statisticsBack);
+        LinearLayout backG = findViewById(R.id.statisticsBack);
         backG.setBackgroundResource(R.drawable.hintergrund_blank);
 
         setStats();
 
-        final Button button = (Button) findViewById(R.id.btn_home);
+        final Button button = findViewById(R.id.btn_home);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,43 +76,52 @@ public class StatisticsActivity extends Activity {
 
     private void setStats() {
 
-        stackedChart = (BarChart) findViewById(R.id.barchart);
+        stackedChart = findViewById(R.id.barchart);
+        //Setzt die rnd-values aus der Array-Liste (statValues) in die Statistik
         BarDataSet barDataSet = new BarDataSet(statValues(), null);
 
-        BarData theData;
+        //Setzt die Farben der Richtig, Falsch, Übersprungen "Balken"
         barDataSet.setColors(colorClassArray);
 
+        //Setzt die werte der Legende
         barDataSet.setStackLabels(labelArray);
         stackedChart.getDescription().setEnabled(false);
 
+        //Gneriert die Staistik
         BarData barData = new BarData(barDataSet);
         barData.setValueTextColor(Color.BLACK);
 
         barChartSettings();
+
+        //Setzt alle Daten der Statistik
         stackedChart.setData(barData);
     }
 
     private void barChartSettings() {
         Typeface font = Typeface.createFromAsset(getAssets(), "ltelight.ttf");
 
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat format1 = new SimpleDateFormat("dd.MM");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat fmt = new SimpleDateFormat("dd.MM");
         ArrayList<String> theDates = new ArrayList<>();
 
+        //Packt die letzten 7 Tage als Datum in ein Array
         for (int i = 6; i >= 0; i--) {
             Calendar cal = Calendar.getInstance();
             cal.add(Calendar.DATE, -i);
 
-            String formatted = format1.format(cal.getTime());
+            String formatted = fmt.format(cal.getTime());
             theDates.add(formatted);
         }
 
+        //X & Y Achse kann um maximal 5 stufen gezoomt werden
         stackedChart.getViewPortHandler().setMaximumScaleX(5f);
         stackedChart.getViewPortHandler().setMaximumScaleY(5f);
 
+        //X-Achse erhält die Daten der letzten 7 Tage (Daten == Datum)
         XAxis xAxis = stackedChart.getXAxis();
         xAxis.setValueFormatter(new IndexAxisValueFormatter(theDates));
         xAxis.setTypeface(font);
 
+        //Y-Achse und die Legende bekommen ein Font
         YAxis yAxisLeft = stackedChart.getAxisLeft();
         yAxisLeft.setTypeface(font);
 
@@ -109,14 +132,18 @@ public class StatisticsActivity extends Activity {
         legend.setTypeface(font);
     }
 
+    //setzt die rnd-values in einer Array-Liste
     private ArrayList<BarEntry> statValues() {
+        statisticDataSource.getAnswers();
         ArrayList<BarEntry> resultVals = new ArrayList<>();
         for (int i = 0; i < 7; i++) {
-            resultVals.add(new BarEntry(i, new float[]{getRandomNumberInRange(1, 10), getRandomNumberInRange(1, 10), getRandomNumberInRange(1, 10)}));
+
+            resultVals.add(new BarEntry(i, new float[]{statisticDataSource.getDatas("11.05.2020"), getRandomNumberInRange(1, 10), getRandomNumberInRange(1, 10)}));
         }
         return resultVals;
     }
 
+    //Dient als Platzhalter - Statisktik erhält rnd-values
     private static int getRandomNumberInRange(int min, int max) {
         if (min >= max) {
             throw new IllegalArgumentException("max must be greater than min");

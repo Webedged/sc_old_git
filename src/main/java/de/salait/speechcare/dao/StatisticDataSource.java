@@ -12,6 +12,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import de.salait.speechcare.data.SpeechcareSQLITEHelper;
 
@@ -35,12 +37,12 @@ public class StatisticDataSource {
     public void insertStatistic(String id, long timestamp, int answerstatus, String giveanswer) {
 
         //Test-Ausgabe der ID's um zu überprüfen ob sich die Tabelle auch mit Trainingsdaten füllt
-        getID();
+        getTimestamps();
 
         //Öffnet die Dtenbank (Stellt verbindung her)
         open();
 
-        //Konsolen ausgabe des Zeitstempels und dessen Status einer Antwort
+        //Konsolen ausgabe des aktuellen Zeitstempels und dessen Status einer Antwort
         /*System.out.println("---TIMESTAMP: " + timestamp);
         System.out.println("---ANSWERSTATUS: " + answerstatus);*/
 
@@ -53,11 +55,10 @@ public class StatisticDataSource {
 
         //Schließt die Datennbank (Kappt DB verbindung)
         close();
-        getAnswerStatus();
 
     }
 
-    private void getID() {
+    private void getTimestamps() {
         open();
         Cursor cursor = database.query(SpeechcareSQLITEHelper.TABLE_STATISTICS, new String[]{SpeechcareSQLITEHelper.COLUMN_TIMESTAMP}, null, null, null, null, null);
         cursor.moveToFirst();
@@ -73,50 +74,85 @@ public class StatisticDataSource {
     }
 
     @SuppressLint("SimpleDateFormat")
-    private void getAnswerStatus() {
-
+    public void getAnswers() {
+        open();
         for (int i = 6; i >= 0; i--) {
-            Calendar calMax = Calendar.getInstance();
-            Calendar calMin = Calendar.getInstance();
-            //Format für die Timestamp zu Datum Konvertierung (--31.12.2020)
-            DateFormat f = new SimpleDateFormat("dd.MM.yyyy");
 
-            //Setzt pro Index (int i) den Tag auf die niedrigste Uhrzeit (00:00:01) - als Timestamp mit der Methode getTimeInMillis()
-            calMin.add(Calendar.DATE, -i);
-            calMin.set(Calendar.HOUR_OF_DAY, 0);
-            calMin.set(Calendar.MINUTE, 0);
-            calMin.set(Calendar.SECOND, 0);
-
-            //Setzt pro Index (int i) den Tag auf die höchste Uhrzeit (23:59:59) - als Timestamp mit der Methode getTimeInMillis()
-            calMax.add(Calendar.DATE, -i);
-            calMax.set(Calendar.HOUR_OF_DAY, 23);
-            calMax.set(Calendar.MINUTE, 59);
-            calMax.set(Calendar.SECOND, 59);
+            DateFormat fmt = new SimpleDateFormat("dd.MM.yyyy");
 
             //Setzt zur überprüfung einen log für jeden (Tag -7), je nach Index der For-Schleife
-            System.out.println(f.format(calMax.getTime()) + ":::" + i + ":::" + "MIN---: " + calMin.getTimeInMillis() + " : " + "MAX---: " + calMax.getTimeInMillis());
+            System.out.println(fmt.format(cal(Calendar.getInstance(), i, 0, 0, 0).getTime()) + ":::" + i + ":::" + "MIN---: " + cal(Calendar.getInstance(), i, 0, 0, 0).getTimeInMillis() + " : " + "MAX---: " + cal(Calendar.getInstance(), i, 23, 59, 59).getTimeInMillis());
 
-            open();
+
             //Fragt die min und max Timestamps in der Query ab, die Resultate sind jeweils die Werte ziwschen min und max Timestamp
-            Cursor cursor = database.query(SpeechcareSQLITEHelper.TABLE_STATISTICS, new String[]{SpeechcareSQLITEHelper.COLUMN_ANSWERSTATUS, SpeechcareSQLITEHelper.COLUMN_TIMESTAMP}, "timestamp BETWEEN " + calMin.getTimeInMillis() + " AND " + calMax.getTimeInMillis() + "", null, null, null, null);
-            cursor.moveToFirst();
-            while (!cursor.isAfterLast()) {
-
-                //Konvertiert den DB-Timestamp in einem Timestamp des Typen Calendar (String to Calendar)
-                String time = cursor.getString(1);
-                long timestampLong = Long.parseLong(time);
-                Date d = new Date(timestampLong);
-                Calendar c = Calendar.getInstance();
-                c.setTime(d);
-                String s = f.format(c.getTime());
-
-                //Zeight aktuelles Datum aus der DB und den Status der Antwort
-                System.out.println("\n DATUM: " + s + ":::" + "ANSWERSTATUS: " + cursor.getString(0));
-                cursor.moveToNext();
+            Cursor sqlQuery = database.query(SpeechcareSQLITEHelper.TABLE_STATISTICS, new String[]{SpeechcareSQLITEHelper.COLUMN_ANSWERSTATUS, SpeechcareSQLITEHelper.COLUMN_TIMESTAMP}, "timestamp BETWEEN " + cal(Calendar.getInstance(), i, 0, 0, 0).getTimeInMillis() + " AND " + cal(Calendar.getInstance(), i, 23, 59, 59).getTimeInMillis() + "", null, null, null, null);
+            sqlQuery.moveToFirst();
+            while (!sqlQuery.isAfterLast()) {
+                //Zeigt aktuelles Datum aus der DB und den Status der Antwort
+                System.out.println("\n DATUM: " + strToDate(sqlQuery, fmt) + ":::" + "ANSWERSTATUS: " + getAnswersCount(sqlQuery, fmt, i));
+                //System.out.println("RICHTIG: " + rightMap.get("11.05.2020") + "++++++++++++++++++++++++++++++++++++");
+                sqlQuery.moveToNext();
             }
-            cursor.close();
-            close();
+
+            sqlQuery.close();
         }
+        close();
+    }
+
+    private Calendar cal(Calendar cal, int i, int hour, int minute, int second) {
+        cal.add(Calendar.DATE, -i);
+        cal.set(Calendar.HOUR_OF_DAY, hour);
+        cal.set(Calendar.MINUTE, minute);
+        cal.set(Calendar.SECOND, second);
+
+        return cal;
+    }
+
+    private int right = 1;
+    private int wrong = 1;
+    private int skipped = 1;
+
+    private Map<String, Integer> rightMap = new HashMap<>();
+    private Map<String, Integer> wrongMap = new HashMap<>();
+    private Map<String, Integer> skippedMap = new HashMap<>();
+
+    private String getAnswersCount(Cursor sqlQuery, DateFormat fmt, int i) {
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -i);
+        switch (sqlQuery.getString(0)) {
+            case "1":
+                if (strToDate(sqlQuery, fmt).equals(fmt.format(cal.getTime())))
+                    rightMap.put(strToDate(sqlQuery, fmt), right++);
+                break;
+            case "0":
+                if (strToDate(sqlQuery, fmt).equals(fmt.format(cal.getTime())))
+                    wrongMap.put(strToDate(sqlQuery, fmt), wrong++);
+                break;
+            case "2":
+                if (strToDate(sqlQuery, fmt).equals(fmt.format(cal.getTime())))
+                    skippedMap.put(strToDate(sqlQuery, fmt), skipped++);
+                break;
+            default:
+                rightMap.put(strToDate(sqlQuery, fmt), null);
+                wrongMap.put(strToDate(sqlQuery, fmt), null);
+                skippedMap.put(strToDate(sqlQuery, fmt), null);
+                break;
+        }
+        return sqlQuery.getString(0);
+    }
+
+    public float[] getDatas(String date) {
+        return new float[]{6, 3, 1};
+    }
+
+    private String strToDate(Cursor sqlQuery, DateFormat fmt) {
+        //Konvertiert den DB-Timestamp in einem Timestamp des Typen Calendar (String to Calendar)
+        String time = sqlQuery.getString(1);
+        long timestampLong = Long.parseLong(time);
+        Date d = new Date(timestampLong);
+        Calendar c = Calendar.getInstance();
+        c.setTime(d);
+        return fmt.format(c.getTime());
     }
 
     public void truncateTable() {

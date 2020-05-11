@@ -854,6 +854,7 @@ public class TrainingActivity extends Activity {
             onWrongAnswerClicked(null);
         }
 
+
         //Zeigt mir relevante werte zum überprüfen der gegebenen Antwort an + Modell (Variiert je nach Modell-Typ)
         /*System.out.println("MODELL: " + TrainingSingleton.getInstance().getCurrentExercise().getExerciseModell());
         System.out.println("GIVENANSWER: " + givenAnswer);
