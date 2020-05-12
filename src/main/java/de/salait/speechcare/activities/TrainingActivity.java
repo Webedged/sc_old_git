@@ -2821,6 +2821,20 @@ public class TrainingActivity extends Activity {
         datasource.deleteFromRepeatExercise(correctAnswerID);
     }
 
+
+    protected void onSkippedAnswerClicked(View view) {
+        isCorrect = true;
+        if (view != null) ((ImageView) view.getTag()).setVisibility(View.VISIBLE);
+        setCurrentExerciseAsCorrectAnswered();
+        updateEvaluationbar();
+    }
+
+    protected void setCurrentExerciseAsSkippedAnswered() {
+        TrainingSingleton.getInstance().getCurrentExercise().answerstatus = 2;
+        String skippedAnswerID = TrainingSingleton.getInstance().getCurrentExercise().getId();
+        updateTrainingProgressBar(TrainingSingleton.getInstance().getCurrentExercise());
+        datasource.deleteFromRepeatExercise(skippedAnswerID);
+    }
     /**
      * falsche Antwort - Ergebnis festhalten
      */

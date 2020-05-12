@@ -49,6 +49,7 @@
     <string name="error_database_error">Fehler in der Datenbank. </string>
     <string name="error_could_not_open_or_create_database">Datenbank konnte nicht erstellt oder geöffnet werden</string>
     <string name="title_activity_evaluation">EvaluationActivity</string>
+    <string name="title_activity_statistic">StatisticnActivity</string>
     <string name="label_timer_initial_value">00:00</string>
     <string name="label_initial_value_0">0</string>
     <string name="label_send_result">Ergebnis zusenden</string>

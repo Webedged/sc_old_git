@@ -19,24 +19,49 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Random;
 
 import de.salait.speechcare.R;
 import de.salait.speechcare.dao.StatisticDataSource;
 
 public class StatisticsActivity extends Activity {
-
+    ArrayList<HashMap> right = new ArrayList<>();
+    ArrayList<HashMap> wrong = new ArrayList<>();
     StatisticDataSource statisticDataSource;
-    private void getDatas(String date){
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.statistics);
+
+        LinearLayout backG = findViewById(R.id.statisticsBack);
+        backG.setBackgroundResource(R.drawable.hintergrund_blank);
+
         try {
             statisticDataSource = new StatisticDataSource(this);
-
-        } catch (IOException e) {
+            right.add(statisticDataSource.getAnswers(statisticDataSource.getDates()).get("right"));
+            wrong.add(statisticDataSource.getAnswers(statisticDataSource.getDates()).get("wrong"));
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
+
+
+        setStats();
+
+        final Button button = findViewById(R.id.btn_home);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
     }
 
     BarChart stackedChart;
@@ -53,25 +78,6 @@ public class StatisticsActivity extends Activity {
             "Falsch",
             "Übersprungen"
     };
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.statistics);
-
-        LinearLayout backG = findViewById(R.id.statisticsBack);
-        backG.setBackgroundResource(R.drawable.hintergrund_blank);
-
-        setStats();
-
-        final Button button = findViewById(R.id.btn_home);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
-    }
 
 
     private void setStats() {
@@ -132,13 +138,25 @@ public class StatisticsActivity extends Activity {
         legend.setTypeface(font);
     }
 
+    private Date last7Days(int i) {
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -i);
+        return cal.getTime();
+    }
+
+    private Object getStats(int i, ArrayList<HashMap> array) {
+        @SuppressLint("SimpleDateFormat") DateFormat fmt = new SimpleDateFormat("dd.MM.yyyy");
+        String date = fmt.format(last7Days(i).getTime());
+        return array.get(0).get(date) != null ? array.get(0).get(date) : 0;
+    }
+
     //setzt die rnd-values in einer Array-Liste
     private ArrayList<BarEntry> statValues() {
-        statisticDataSource.getAnswers();
         ArrayList<BarEntry> resultVals = new ArrayList<>();
+        int x = 6;
         for (int i = 0; i < 7; i++) {
-
-            resultVals.add(new BarEntry(i, new float[]{statisticDataSource.getDatas("11.05.2020"), getRandomNumberInRange(1, 10), getRandomNumberInRange(1, 10)}));
+            resultVals.add(new BarEntry(x, new float[]{(float) getStats(i, right), (float) getStats(i, wrong), 0f}));
+            x--;
         }
         return resultVals;
     }
