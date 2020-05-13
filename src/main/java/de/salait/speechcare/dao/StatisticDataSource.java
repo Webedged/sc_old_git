@@ -10,7 +10,6 @@ import android.database.sqlite.SQLiteException;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -38,10 +37,6 @@ public class StatisticDataSource {
         //Öffnet die Dtenbank (Stellt verbindung her)
         open();
 
-        //Konsolen ausgabe des aktuellen Zeitstempels und dessen Status einer Antwort
-        /*System.out.println("---TIMESTAMP: " + timestamp);
-        System.out.println("---ANSWERSTATUS: " + answerstatus);*/
-
         ContentValues values = new ContentValues();
         values.put(SpeechcareSQLITEHelper.COLUMN_ID, id);
         values.put(SpeechcareSQLITEHelper.COLUMN_TIMESTAMP, Long.toString(timestamp));
@@ -51,65 +46,49 @@ public class StatisticDataSource {
 
         //Schließt die Datennbank (Kappt DB verbindung)
         close();
-
-        System.out.println("***********" + getAnswers(getDates()) + "***********");
     }
 
     @SuppressLint("SimpleDateFormat")
-    public ArrayList<String> getDates() {
-        ArrayList<String> dates = new ArrayList<>();
-        open();
-        for (int i = 6; i >= 0; i--) {
-            DateFormat fmt = new SimpleDateFormat("dd.MM.yyyy");
-
-            Cursor sqlQuery = database.query(SpeechcareSQLITEHelper.TABLE_STATISTICS, new String[]{SpeechcareSQLITEHelper.COLUMN_TIMESTAMP}, "timestamp BETWEEN " + cal(Calendar.getInstance(), i, 0, 0, 0).getTimeInMillis() + " AND " + cal(Calendar.getInstance(), i, 23, 59, 59).getTimeInMillis() + "", null, null, null, null);
-            sqlQuery.moveToFirst();
-
-            while (!sqlQuery.isAfterLast()) {
-                dates.add(dateToString(sqlQuery, fmt));
-                sqlQuery.moveToNext();
-            }
-            sqlQuery.close();
-        }
-        close();
-        return dates;
-    }
-
-    @SuppressLint("SimpleDateFormat")
-    public HashMap<String, HashMap> getAnswers(ArrayList<String> dates) {
-        int rightAnswers = 0;
-        int wrongAnswers = 0;
+    public HashMap<String, HashMap> getAnswers() {
         HashMap<String, HashMap> answers = new HashMap<>();
         HashMap<String, Float> right = new HashMap<>();
         HashMap<String, Float> wrong = new HashMap<>();
+        HashMap<String, Float> skipped = new HashMap<>();
         open();
+
         for (int i = 6; i >= 0; i--) {
             DateFormat fmt = new SimpleDateFormat("dd.MM.yyyy");
-
-            Cursor sqlQuery = database.query(SpeechcareSQLITEHelper.TABLE_STATISTICS, new String[]{SpeechcareSQLITEHelper.COLUMN_ANSWERSTATUS}, null, null, null, null, null);
+            Cursor sqlQuery = database.query(SpeechcareSQLITEHelper.TABLE_STATISTICS, new String[]{SpeechcareSQLITEHelper.COLUMN_ANSWERSTATUS, SpeechcareSQLITEHelper.COLUMN_TIMESTAMP}, "timestamp BETWEEN " + cal(Calendar.getInstance(), i, 0, 0, 0).getTimeInMillis() + " AND " + cal(Calendar.getInstance(), i, 23, 59, 59).getTimeInMillis() + "", null, null, null, null);
+            int wrongAnswers = 0;
+            int rightAnswers = 0;
+            int skippedAnswers = 0;
             sqlQuery.moveToFirst();
             while (!sqlQuery.isAfterLast()) {
-                //System.out.println("+++++" + fmt.format(last7Days(i).getTime()) + sqlQuery.getString(0));
-                if (dates.contains(fmt.format(last7Days(i).getTime())) && sqlQuery.getString(0).equals("1")) {
-                    rightAnswers++;
-                    right.put(fmt.format(last7Days(i).getTime()), (float) rightAnswers);
-                } else if (sqlQuery.getString(0).equals("1")) {
-                    right.put(fmt.format(last7Days(i).getTime()), (float) 0);
-                }
-
-                if (dates.contains(fmt.format(last7Days(i).getTime())) && sqlQuery.getString(0).equals("0")) {
-                    wrongAnswers++;
-                    wrong.put(fmt.format(last7Days(i).getTime()), (float) wrongAnswers);
-                } else if (sqlQuery.getString(0).equals("0")) {
-                    wrong.put(fmt.format(last7Days(i).getTime()), (float) 0);
+                System.out.println("DATUM: " + dateToString(sqlQuery, fmt) + " ANTWORT: " + sqlQuery.getString(0));
+                if (fmt.format(last7Days(i)).equals(dateToString(sqlQuery, fmt))) {
+                    switch (sqlQuery.getString(0)) {
+                        case "0":
+                            wrongAnswers++;
+                            wrong.put(dateToString(sqlQuery, fmt), (float) wrongAnswers);
+                            break;
+                        case "1":
+                            rightAnswers++;
+                            right.put(dateToString(sqlQuery, fmt), (float) rightAnswers);
+                            break;
+                        case "2":
+                            skippedAnswers++;
+                            skipped.put(dateToString(sqlQuery, fmt), (float) skippedAnswers);
+                            break;
+                    }
                 }
                 sqlQuery.moveToNext();
             }
             sqlQuery.close();
-            answers.put("right", right);
-            answers.put("wrong", wrong);
         }
         close();
+        answers.put("wrong", wrong);
+        answers.put("right", right);
+        answers.put("skipped", skipped);
         return answers;
     }
 
@@ -121,7 +100,7 @@ public class StatisticDataSource {
 
     private String dateToString(Cursor sqlQuery, DateFormat fmt) {
         //Konvertiert den DB-Timestamp in einem Timestamp des Typen Calendar (String to Calendar)
-        String time = sqlQuery.getString(0);
+        String time = sqlQuery.getString(1);
         long timestampLong = Long.parseLong(time);
         Date d = new Date(timestampLong);
         Calendar c = Calendar.getInstance();

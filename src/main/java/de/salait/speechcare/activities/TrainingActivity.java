@@ -834,7 +834,6 @@ public class TrainingActivity extends Activity {
         }
 
     }
-
     /**
      * springt zur naechsten uebung
      */
@@ -847,6 +846,14 @@ public class TrainingActivity extends Activity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+
+        statisticDataSource.insertStatistic(TrainingSingleton.getInstance().getCurrentExercise().getId(), System.currentTimeMillis(), TrainingSingleton.getInstance().getCurrentExercise().answerstatus, selectedAnswer());
+
+        if (TrainingSingleton.getInstance().getCurrentExercise().getExerciseModell().equalsIgnoreCase("exerciseimageforword") || TrainingSingleton.getInstance().getCurrentExercise().getExerciseModell().equalsIgnoreCase("exerciseimageforvideo")) {
+            RelativeLayout ll_training = findViewById(R.id.ll_training);
+            View exv = findViewById(R.id.exercise_layout);
+            ll_training.removeView(exv);
         }
 
         if (TrainingSingleton.getInstance().getCurrentExercise().answerstatus == 2) {// keine Anwort gegeben, also falsch
@@ -862,13 +869,7 @@ public class TrainingActivity extends Activity {
         System.out.println("ANSWERID: " + answerID);*/
 
         //Fügt die Antwort in die DB ein
-        statisticDataSource.insertStatistic(TrainingSingleton.getInstance().getCurrentExercise().getId(), System.currentTimeMillis(), TrainingSingleton.getInstance().getCurrentExercise().answerstatus, selectedAnswer());
 
-        if (TrainingSingleton.getInstance().getCurrentExercise().getExerciseModell().equalsIgnoreCase("exerciseimageforword") || TrainingSingleton.getInstance().getCurrentExercise().getExerciseModell().equalsIgnoreCase("exerciseimageforvideo")) {
-            RelativeLayout ll_training = findViewById(R.id.ll_training);
-            View exv = findViewById(R.id.exercise_layout);
-            ll_training.removeView(exv);
-        }
         loadExercise(TrainingSingleton.getInstance().getNextExercise());
     }
 

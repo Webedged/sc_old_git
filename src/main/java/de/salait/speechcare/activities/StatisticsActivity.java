@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Random;
 
 import de.salait.speechcare.R;
 import de.salait.speechcare.dao.StatisticDataSource;
@@ -33,6 +32,7 @@ import de.salait.speechcare.dao.StatisticDataSource;
 public class StatisticsActivity extends Activity {
     ArrayList<HashMap> right = new ArrayList<>();
     ArrayList<HashMap> wrong = new ArrayList<>();
+    ArrayList<HashMap> skipped = new ArrayList<>();
     StatisticDataSource statisticDataSource;
 
     @Override
@@ -45,13 +45,12 @@ public class StatisticsActivity extends Activity {
 
         try {
             statisticDataSource = new StatisticDataSource(this);
-            right.add(statisticDataSource.getAnswers(statisticDataSource.getDates()).get("right"));
-            wrong.add(statisticDataSource.getAnswers(statisticDataSource.getDates()).get("wrong"));
-        }
-        catch (IOException e) {
+            wrong.add(statisticDataSource.getAnswers().get("wrong"));
+            right.add(statisticDataSource.getAnswers().get("right"));
+            skipped.add(statisticDataSource.getAnswers().get("skipped"));
+        } catch (IOException e) {
             e.printStackTrace();
         }
-
 
         setStats();
 
@@ -147,7 +146,7 @@ public class StatisticsActivity extends Activity {
     private Object getStats(int i, ArrayList<HashMap> array) {
         @SuppressLint("SimpleDateFormat") DateFormat fmt = new SimpleDateFormat("dd.MM.yyyy");
         String date = fmt.format(last7Days(i).getTime());
-        return array.get(0).get(date) != null ? array.get(0).get(date) : 0;
+        return array.get(0).get(date) != null ? array.get(0).get(date) : (float) 0;
     }
 
     //setzt die rnd-values in einer Array-Liste
@@ -155,18 +154,10 @@ public class StatisticsActivity extends Activity {
         ArrayList<BarEntry> resultVals = new ArrayList<>();
         int x = 6;
         for (int i = 0; i < 7; i++) {
-            resultVals.add(new BarEntry(x, new float[]{(float) getStats(i, right), (float) getStats(i, wrong), 0f}));
+            resultVals.add(new BarEntry(x, new float[]{(float) getStats(i, right), (float) getStats(i, wrong), (float) getStats(i, skipped)}));
             x--;
         }
         return resultVals;
     }
 
-    //Dient als Platzhalter - Statisktik erhält rnd-values
-    private static int getRandomNumberInRange(int min, int max) {
-        if (min >= max) {
-            throw new IllegalArgumentException("max must be greater than min");
-        }
-        Random rnd = new Random();
-        return rnd.nextInt((max - min) + 1) + min;
-    }
 }
