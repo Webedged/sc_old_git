@@ -160,5 +160,11 @@
     <string name="label_legend_right">Richtig</string>
     <string name="label_legend_wrong">Falsch</string>
     <string name="label_legend_skipped">Übersprungen</string>
+    <string name="button_trainingstats">Trainingsergebnisse</string>
+    <string name="button_intensitätstats">Intensitätsergebnisse</string>
+    <string name="button_typstats">Ergebnisse nach Typ</string>
+    <string name="button_listexcersisestats">Liste der Übungen</string>
+    <string name="shadow">shadow</string>
+    <string name="nothing" />
 
 </resources>

@@ -1,8 +1,9 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/statisticsBack"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:background="#dde0e3"
     android:orientation="vertical"
     android:padding="0px"
@@ -12,7 +13,6 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:visibility="visible"
     tools:context=".activities.StatisticsActivity">
-
 
     <LinearLayout
         android:id="@+id/statisticsContent"
@@ -24,7 +24,7 @@
         <RelativeLayout
             android:id="@+id/ll_header"
             android:layout_width="fill_parent"
-            android:layout_height="50dp"
+            android:layout_height="0dp"
             android:layout_gravity="center_horizontal|top"
             android:layout_weight="5"
             android:orientation="vertical">
@@ -33,19 +33,25 @@
                 android:id="@+id/btn_home"
                 android:layout_width="@dimen/button_size_48"
                 android:layout_height="@dimen/button_size_48"
+                android:layout_alignParentStart="false"
                 android:layout_alignParentLeft="false"
                 android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_gravity="right"
+                android:layout_marginEnd="68dp"
                 android:layout_marginRight="68dp"
                 android:background="@drawable/ico_home" />
 
             <LinearLayout
+                android:id="@+id/speechcare_logo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="false"
                 android:layout_centerVertical="true"
+                android:layout_marginStart="68dp"
                 android:layout_marginLeft="68dp"
                 android:orientation="horizontal">
 
@@ -54,8 +60,10 @@
                     android:layout_width="36dp"
                     android:layout_height="27dp"
                     android:layout_gravity="center_vertical|bottom"
+                    android:layout_marginStart="20dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginBottom="5dp"
+                    android:contentDescription="no"
                     android:scaleType="fitXY"
                     android:src="@drawable/ico_sprechblase" />
 
@@ -64,10 +72,30 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical|bottom"
+                    android:layout_marginStart="5dp"
                     android:layout_marginLeft="5dp"
                     android:textColor="@color/fontcolor_lightblue"
                     android:textSize="@dimen/fontsize_30" />
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/headerStatistics"
+                android:layout_width="375dp"
+                android:layout_height="26dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="55dp"
+                android:layout_marginLeft="55dp"
+                android:layout_marginTop="22dp"
+                android:layout_marginEnd="55dp"
+                android:layout_marginRight="55dp"
+                android:layout_marginBottom="22dp"
+                android:layout_toStartOf="@+id/btn_home"
+                android:layout_toLeftOf="@+id/btn_home"
+                android:layout_toEndOf="@+id/speechcare_logo"
+                android:layout_toRightOf="@+id/speechcare_logo"
+                android:gravity="center"
+                android:text="@string/nothing" />
 
         </RelativeLayout>
 
@@ -75,29 +103,148 @@
             android:id="@+id/iv_line"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/linie" />
+            android:background="@drawable/linie"
+            android:contentDescription="@string/shadow" />
     </LinearLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <LinearLayout
+        android:id="@+id/trainingStatsView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/footer"
+        android:layout_below="@+id/statisticsContent"
+        android:layout_marginLeft="68dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="68dp"
+        android:orientation="horizontal"
+        android:visibility="visible">
 
-        <LinearLayout
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/trainingStatsChart"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:paddingLeft="65dp"
-            android:paddingRight="65dp">
+            android:background="@android:color/white">
 
-            <com.github.mikephil.charting.charts.BarChart
-                android:id="@+id/barchart"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@android:color/white"/>
+        </com.github.mikephil.charting.charts.BarChart>
+    </LinearLayout>
 
-        </LinearLayout>
+    <LinearLayout
+        android:id="@+id/intensitätStatsView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/footer"
+        android:layout_below="@+id/statisticsContent"
+        android:layout_marginLeft="68dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="68dp"
+        android:orientation="horizontal"
+        android:visibility="gone">
 
-    </RelativeLayout>
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/intensitätStatsChart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white" >
 
+        </com.github.mikephil.charting.charts.PieChart>
+    </LinearLayout>
 
-</LinearLayout>
+    <LinearLayout
+        android:id="@+id/typStatsView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/footer"
+        android:layout_below="@+id/statisticsContent"
+        android:layout_marginLeft="68dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="68dp"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/typStatsChart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/listExcersiseStatsView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/footer"
+        android:layout_below="@+id/statisticsContent"
+        android:layout_marginLeft="68dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="68dp"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/listExcersiseStatsChart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/footer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="68dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="68dp"
+        android:layout_marginBottom="30dp"
+        android:orientation="horizontal"
+        android:weightSum="4">
+
+        <Button
+            android:id="@+id/trainingStats"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="33dp"
+            android:background="@color/fontcolor_lightblue"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:text="@string/button_trainingstats"
+            android:textColor="#fff"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/intensitätStats"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="33dp"
+            android:background="@color/grey"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:text="@string/button_intensitätstats"
+            android:textColor="#fff"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/typStats"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="33dp"
+            android:background="@color/grey"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:text="@string/button_typstats"
+            android:textColor="#fff"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/listExcersiseStats"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="33dp"
+            android:background="@color/grey"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:text="@string/button_listexcersisestats"
+            android:textColor="#fff"
+            android:textSize="14sp" />
+    </LinearLayout>
+</RelativeLayout>

@@ -31,7 +31,7 @@
     <string name="button_illustration">Illustration</string>
     <string name="button_delete">WIEDERVORLAGE LEEREN</string>
     <string name="button_back">ZURÜCK ZUR ÜBERSICHT</string>
-    <string name="button_reset">Appspeicher leeren</string>
+    <string name="button_reset">Zurücksetzen</string>
     <string name="label_settings">Einstellungen</string>
     <string name="error_could_not_load_sound">Sound konnte nicht geladen werden.</string>
     <string name="dialog_delete_all_training_data">Sollen alle Trainingsdaten gelöscht werden?</string>
@@ -81,5 +81,6 @@
     <string name="alertTitleNoInternet">Kein Netz</string>
     <string name="unloadMediaInfo">Es werden noch Bilder und Videos geladen. Solange noch nicht alle Medien vollständig downgeloadet wurden, kann es zu unvollständigen Darstellungen in den Übungen kommen</string>
     <string name="no_stats">Es sind keine Statistiken vorhanden.</string>
+    <string name="button_trainingstats">Trainingsergebnisse</string>
 
 </resources>

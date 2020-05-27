@@ -54,6 +54,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -834,6 +835,7 @@ public class TrainingActivity extends Activity {
         }
 
     }
+
     /**
      * springt zur naechsten uebung
      */
@@ -848,7 +850,7 @@ public class TrainingActivity extends Activity {
             }
         }
 
-        statisticDataSource.insertStatistic(TrainingSingleton.getInstance().getCurrentExercise().getId(), System.currentTimeMillis(), TrainingSingleton.getInstance().getCurrentExercise().answerstatus, selectedAnswer());
+        statisticDataSource.insertStatistic(TrainingSingleton.getInstance().getCurrentExercise().getId(), System.currentTimeMillis(), TrainingSingleton.getInstance().getCurrentExercise().answerstatus, selectedAnswer(), TrainingSingleton.getInstance().getCurrentExercise().getExerciseModell());
 
         if (TrainingSingleton.getInstance().getCurrentExercise().getExerciseModell().equalsIgnoreCase("exerciseimageforword") || TrainingSingleton.getInstance().getCurrentExercise().getExerciseModell().equalsIgnoreCase("exerciseimageforvideo")) {
             RelativeLayout ll_training = findViewById(R.id.ll_training);
@@ -860,16 +862,6 @@ public class TrainingActivity extends Activity {
             TrainingSingleton.getInstance().getCurrentExercise().answerstatus = 0;
             onWrongAnswerClicked(null);
         }
-
-
-        //Zeigt mir relevante werte zum überprüfen der gegebenen Antwort an + Modell (Variiert je nach Modell-Typ)
-        /*System.out.println("MODELL: " + TrainingSingleton.getInstance().getCurrentExercise().getExerciseModell());
-        System.out.println("GIVENANSWER: " + givenAnswer);
-        System.out.println("GIVENANSWERLIST: " + givenAnswerList);
-        System.out.println("ANSWERID: " + answerID);*/
-
-        //Fügt die Antwort in die DB ein
-
         loadExercise(TrainingSingleton.getInstance().getNextExercise());
     }
 
@@ -924,12 +916,11 @@ public class TrainingActivity extends Activity {
         if (getResources().getBoolean(R.bool.isPlusVersion)) {
 
             if (exercise != null) {
+                String collID = "";
                 for (int i = 0; i < exercise.getWrongAnswers().size(); i++) {
                     Log.i("ExerciseWrongAnswer", exercise.getWrongAnswers().get(i));
                 }
-                String collID = "";
                 try {
-
                     ExerciseDataSource exerciseDataSourcePraxis = new ExerciseDataSource(activity);
                     exerciseDataSourcePraxis.open();
                     collID = exerciseDataSourcePraxis.getCollectionIDForExercise(exercise.getId(), userid);
@@ -953,7 +944,6 @@ public class TrainingActivity extends Activity {
                 exerciseType = exercise.getExerciseModell();
             }
         }
-
 
         if (vv_helpVideo.isPlaying()) {
             vv_helpVideo.stopPlayback();
@@ -986,34 +976,43 @@ public class TrainingActivity extends Activity {
 
         System.out.println("<< ExerciseModell" + exercise.getExerciseModell());
 
-        //TODO: If-Statemants wechseln mit switch-case
-
-        if (exercise.getExerciseModell().equalsIgnoreCase("exercisesortcharacters")) {
-            datasource.getExerciseSortCharacters(exercise);
-            createExerciseSortCharacters(exercise);
-        } else if (exercise.getExerciseModell().equalsIgnoreCase("exercisegapwordforimage")) {
-            datasource.getExerciseGapWordForImage(exercise);
-            createExerciseGapWordForImage(exercise);
-        } else if (exercise.getExerciseModell().equalsIgnoreCase("exerciseimageforword")) {
-            datasource.getExerciseImageForWord(exercise);
-            createExerciseImageForWord(exercise);
-        } else if (exercise.getExerciseModell().equalsIgnoreCase("exercisewordforimage")) {
-            datasource.getExerciseWordForImage(exercise);
-            createExerciseWordForImage(exercise);
-        } else if (exercise.getExerciseModell().equalsIgnoreCase("exercisesortwords")) {
-            datasource.getExerciseSortWords(exercise);
-            createExerciseSortWords(exercise);
-        } else if (exercise.getExerciseModell().equalsIgnoreCase("exercisegapsentenceforimage")) {
-            datasource.getExerciseGapSentenceForImage(exercise);
-            createExerciseGapSentenceForImage(exercise);
-        } else if (exercise.getExerciseModell().equalsIgnoreCase("exerciseimageforvideo")) {
-            datasource.getExerciseImageForVideo(exercise);
-            createExerciseImageForVideo(exercise);
-        } else if (exercise.getExerciseModell().equalsIgnoreCase("exercisewordforvideo")) { // fds!°!gfdgdf
-            datasource.getExerciseWordForVideo(exercise);
-            createExerciseWordForVideo(exercise);
-        } else {
-            // do nothing - what has happened?
+        try {
+            switch (exercise.getExerciseModell().toLowerCase()) {
+                case "exercisesortcharacters":
+                    datasource.getExerciseSortCharacters(exercise);
+                    createExerciseSortCharacters(exercise);
+                    break;
+                case "exercisegapwordforimage":
+                    datasource.getExerciseGapWordForImage(exercise);
+                    createExerciseGapWordForImage(exercise);
+                    break;
+                case "exerciseimageforword":
+                    datasource.getExerciseImageForWord(exercise);
+                    createExerciseImageForWord(exercise);
+                    break;
+                case "exercisewordforimage":
+                    datasource.getExerciseWordForImage(exercise);
+                    createExerciseWordForImage(exercise);
+                    break;
+                case "exercisesortwords":
+                    datasource.getExerciseSortWords(exercise);
+                    createExerciseSortWords(exercise);
+                    break;
+                case "exercisegapsentenceforimage":
+                    datasource.getExerciseGapSentenceForImage(exercise);
+                    createExerciseGapSentenceForImage(exercise);
+                    break;
+                case "exerciseimageforvideo":
+                    datasource.getExerciseImageForVideo(exercise);
+                    createExerciseImageForVideo(exercise);
+                    break;
+                case "exercisewordforvideo":
+                    datasource.getExerciseWordForVideo(exercise);
+                    createExerciseWordForVideo(exercise);
+                    break;
+            }
+        } catch (InputMismatchException e) {
+            e.printStackTrace();
         }
 
         // forVideo-Uebungen haben ihre VideoInformation in der QuestionMedia, nicht in HelpVideo
@@ -2836,6 +2835,7 @@ public class TrainingActivity extends Activity {
         updateTrainingProgressBar(TrainingSingleton.getInstance().getCurrentExercise());
         datasource.deleteFromRepeatExercise(skippedAnswerID);
     }
+
     /**
      * falsche Antwort - Ergebnis festhalten
      */
@@ -3042,7 +3042,52 @@ public class TrainingActivity extends Activity {
 
     // ONLY FOR PLUS VERSION
     private void setAnswerData() throws IOException {
-        if (exerciseType.equalsIgnoreCase("exercisesortcharacters")) {
+        switch (exerciseType.toLowerCase()) {
+            case "exercisesortcharacters":
+                String answerString = "";
+                for (String s : givenAnswerList) {
+                    answerString += " " + s;
+                }
+                answerString = answerString.trim();
+                currentAnswer.setAnswerTxt(answerString);
+                if (TrainingSingleton.getInstance().getCurrentExercise().getCorrectAnswer().equalsIgnoreCase(answerString)) {
+                    currentAnswer.setSolved((isCorrect == null) ? false : isCorrect);
+                    currentAnswer.setIsCorrect(isCorrect);
+                } else {
+                    currentAnswer.setSolved((isCorrect == null) ? false : isCorrect);
+                    currentAnswer.setIsCorrect(isCorrect);
+                }
+                break;
+            case "exercisegapwordforimage":
+                currentAnswer.setAnswerTxt(givenAnswer);
+                if (givenAnswer.equalsIgnoreCase(TrainingSingleton.getInstance().getCurrentExercise().getCorrectAnswer())) {
+                    currentAnswer.setSolved((isCorrect == null) ? false : isCorrect);
+                    currentAnswer.setIsCorrect(isCorrect);
+                } else {
+                    currentAnswer.setSolved((isCorrect == null) ? false : isCorrect);
+                    currentAnswer.setIsCorrect(isCorrect);
+                }
+                break;
+            case "exerciseimageforword":
+            case "exercisewordforimage":
+                currentAnswer.setSolved((isCorrect == null) ? false : isCorrect);
+                currentAnswer.setIsCorrect(isCorrect);
+                AnswerDataSource aDS = new AnswerDataSource(this);
+                aDS.open();
+                currentAnswer.setAnswerID(aDS.getAnswerIdForValueAndExID(answerID, currentAnswer.getExerciseID()));
+                aDS.close();
+                break;
+            case "exercisesortwords":
+            case "exercisegapsentenceforimage":
+                currentAnswer.setSolved((isCorrect == null) ? false : isCorrect);
+                currentAnswer.setIsCorrect(isCorrect);
+                currentAnswer.setAnswerTxt(givenAnswer);
+                break;
+        }
+
+
+        //--Zur sicherheit wurde das nicht gelöscht.--
+        /*if (exerciseType.equalsIgnoreCase("exercisesortcharacters")) {
             String answerString = "";
             for (String s : givenAnswerList) {
                 answerString += " " + s;
@@ -3056,7 +3101,6 @@ public class TrainingActivity extends Activity {
                 currentAnswer.setSolved((isCorrect == null) ? false : isCorrect);
                 currentAnswer.setIsCorrect(isCorrect);
             }
-
         } else if (exerciseType.equalsIgnoreCase("exercisegapwordforimage")) {
             currentAnswer.setAnswerTxt(givenAnswer);
             if (givenAnswer.equalsIgnoreCase(TrainingSingleton.getInstance().getCurrentExercise().getCorrectAnswer())) {
@@ -3089,28 +3133,12 @@ public class TrainingActivity extends Activity {
             currentAnswer.setSolved((isCorrect == null) ? false : isCorrect);
             currentAnswer.setIsCorrect(isCorrect);
             currentAnswer.setAnswerTxt(givenAnswer);
-        } else {
-            // do nothing - what has happened?
-        }
-
+        }*/
 
         int durationsek = (int) (System.currentTimeMillis() - startTime) / 1000;
-//        if(durationsek>60){
-//            int minuten=durationsek/60;
-//            int rest = durationsek-minuten*60;
-//            if(rest>10){currentAnswer.setDuration(minuten+":"+rest);}
-//            else{currentAnswer.setDuration(minuten+":0"+rest);}
-//
-//        }
-//        else if(durationsek>10){
-//            currentAnswer.setDuration("0:"+durationsek);
-//        }
-//        else{
-//            currentAnswer.setDuration("0:0"+durationsek);
-//        }
         currentAnswer.setDuration(String.valueOf(durationsek));
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         currentAnswer.setAnswerTime(sdf.format(new Date()));
     }
 
@@ -3141,7 +3169,6 @@ public class TrainingActivity extends Activity {
                     millis = SystemClock.uptimeMillis() - start;
                 }
 
-
                 int seconds = (int) (millis / 1000);
                 int minutes = seconds / 60;
                 seconds = seconds % 60;
@@ -3168,8 +3195,7 @@ public class TrainingActivity extends Activity {
             activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if (isRunning.get())
-                        finishTraining();
+                    if (isRunning.get()) finishTraining();
                 }
             });
 
