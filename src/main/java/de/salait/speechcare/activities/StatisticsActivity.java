@@ -121,6 +121,7 @@ public class StatisticsActivity extends Activity implements View.OnClickListener
         }
     }
 
+    //Lädt eine neue Statistik (z.B. wenn der Patient auf den Button "Ergebnisse nach Typ" klickt.)
     @SuppressLint("ResourceType")
     private void loadNewStats(Button btnActive, Button tmpBtn, LinearLayout viewStat, LinearLayout tmpViewStat) {
         if (btnActive != tmpBtn) {
@@ -229,6 +230,7 @@ public class StatisticsActivity extends Activity implements View.OnClickListener
     private ArrayList<PieEntry> intensitaetStatValue() {
         ArrayList<PieEntry> resultVals = new ArrayList<>();
         String tmpExerciseModel = "";
+        //Zeigt dem PieChart die Aufgabentypen visuell an
         for (int i = 0; i < exerciseModel.get(0).size(); i++) {
             //TODO: Richtig übersetzen lassen
             switch (models[i]) {
@@ -257,13 +259,14 @@ public class StatisticsActivity extends Activity implements View.OnClickListener
         return resultVals;
     }
 
+    //Aufgaben-Modelle
     String[] models = {"exercisewordforimage", "exerciseimageforword", "exercisegapsentenceforimage", "exercisesortcharacters", "exercisesortwords", "exercisegapwordforimage"};
 
     private Object getStats(int i, ArrayList<HashMap> array) {
         switch (viewStat.getId()) {
             case R.id.trainingStatsView:
                 @SuppressLint("SimpleDateFormat") DateFormat fmt = new SimpleDateFormat("dd.MM.yyyy");
-                //erhaltener Timestamp wird in einem format konvertiert
+                //erhaltener Timestamp wird in einem date-format konvertiert
                 String date = fmt.format(last7Days(i).getTime());
                 //Zieht sich von Index: i das datum, wenn das Array ein wert mit diesem datum enthält returnt er einen (float > 0) wenn nicht dann returnt er einen (float = 0)
                 return array.get(0).get(date) != null ? array.get(0).get(date) : (float) 0;
